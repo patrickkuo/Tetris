@@ -7,7 +7,7 @@ package pat.game.Tetris;
 public class App {
 	public static void main(String[] args) {
 		TetrisGame game = new TetrisGame();
-		new TetrisGUI(game.getPlayField());
+		new TetrisGUI(game);
 
 
 			Thread thread = new Thread(new GameRunner(game));

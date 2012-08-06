@@ -7,6 +7,7 @@ public class Block {
 	private PlayField gameField;
 	private Tetriminos type;
 	private boolean done;
+	private boolean gameEnd;
 
 	public Block(Tetriminos type) {
 		this.model = TertimonosModel.getModel(type);
@@ -30,17 +31,36 @@ public class Block {
 
 	public void moveDown() {
 		if (gameField != null) {
-			if (!checkCollision(0, 1)) {
+			if (!downCollision()) {
 				cleanOld();
 				y++;
 				addNew();
+			} else {
+				checkLose();
 			}
-			//System.out.println(gameField);
+			// System.out.println(gameField);
 		}
 	}
 
 	public void rotate() {
+		if (gameField != null) {
+			cleanOld();
+			int oldX = model.length;
+			int oldY = model[0].length;
+			FieldCell[][] newModel = new FieldCell[oldY][oldX];
 
+			for (int i = 0; i < oldX; i++) {
+				for (int j = 0; j < oldY; j++) {
+					if (model[i][j] != null) {
+						newModel[oldY-j-1][i] = model[i][j];
+					}
+				}
+			}
+			this.model = newModel;
+
+			addNew();
+
+		}
 	}
 
 	private void cleanOld() {
@@ -66,17 +86,16 @@ public class Block {
 		}
 	}
 
-	private boolean checkCollision(int xD, int yD) {
+	private boolean downCollision() {
 
-		if (model.length + yD + this.y > 22) {
-			System.out.println("called");
+		if (model.length + 1 + this.y > 22) {
 			this.done = true;
 			return true;
 		} else {
 			for (int i = 0; i < model[model.length - 1].length; i++) {
 				if (model[model.length - 1][i] != null
 						&& model[model.length - 1][i].isFilled()) {
-					if (gameField.getPlayField()[y + yD +model.length - 1][xD + x + 3 + i]
+					if (gameField.getPlayField()[y + model.length][x + 3 + i]
 							.isFilled()) {
 						this.done = true;
 						return true;
@@ -91,5 +110,17 @@ public class Block {
 
 	public boolean isDone() {
 		return this.done;
+	}
+
+	private void checkLose() {
+		for (int i = 0; i < gameField.getPlayField()[1].length; i++) {
+			if (gameField.getPlayField()[1][i].isFilled()) {
+				this.gameEnd = true;
+			}
+		}
+	}
+
+	public boolean isGameEnd() {
+		return gameEnd;
 	}
 }

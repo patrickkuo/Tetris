@@ -23,8 +23,6 @@ public class TetrisGame {
 		currentBlock.setGameField(playField);
 	}
 	
-	
-
 	public Block getCurrentBlock() {
 		return currentBlock;
 	}
@@ -45,13 +43,13 @@ public class TetrisGame {
 				System.out.println("right");
 				break;
 			case rotate:
-				System.out.println("rotate");
+				currentBlock.rotate();
 				break;
-
 			default:
 				System.out.println("error");
 				break;
 			}
+			gameEnd = currentBlock.isGameEnd();
 		}
 	}
 

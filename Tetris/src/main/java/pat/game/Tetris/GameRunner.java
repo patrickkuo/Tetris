@@ -1,8 +1,5 @@
 package pat.game.Tetris;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameRunner implements Runnable {
 
 	private TetrisGame game;
@@ -22,7 +19,7 @@ public class GameRunner implements Runnable {
 				}
 				game.moveCurrentBlock(Movment.down);
 				try {
-					game.wait(100);
+					game.wait(500);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

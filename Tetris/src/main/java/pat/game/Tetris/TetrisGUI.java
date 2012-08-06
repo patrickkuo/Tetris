@@ -9,16 +9,16 @@ public class TetrisGUI extends JFrame {
 
 	private static final int FRAME_WIDTH = 600;
 	private static final int FRAME_HEIGHT = 800;
-	private PlayField playField;
+	private TetrisGame game;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TetrisGUI(PlayField playField) {
+	public TetrisGUI(TetrisGame game) {
 		super("Teris");
-		this.playField = playField;
-		System.out.println(playField);	
+		this.game = game;
+		System.out.println(game.getPlayField());	
 		
 		// set exit action
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -32,11 +32,16 @@ public class TetrisGUI extends JFrame {
 
 		this.setBounds(frameLocationX, frameLocationY, frameWidth, frameHeight);
 		
-		TetrisCanvas tC = new TetrisCanvas(playField);
-		
+		// canvas class handle drawings
+		final TetrisCanvas tC = new TetrisCanvas(game.getPlayField());
 		tC.setBounds(2, 2, 600, 800);
-		
 		this.add(tC);
+		
+		// thread for repaint
+		Thread repaintThread = new Thread(new RepaintRunner(tC));
+		repaintThread.start();
+		
+		this.addKeyListener(new TetrisKeyListener(game));
 		
 		// set visible
 		this.setVisible(true);

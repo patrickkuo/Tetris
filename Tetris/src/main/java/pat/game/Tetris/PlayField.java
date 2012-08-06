@@ -3,9 +3,7 @@ package pat.game.Tetris;
 public class PlayField {
 
 	private FieldCell playField[][];
-	private Block currentBlock;
-	private int blockX,blockY;
-	
+	private Block currentBlock;	
 
 	public PlayField() {
 		clearField();
@@ -25,6 +23,10 @@ public class PlayField {
 			}
 		}
 
+	}
+
+	public Block getCurrentBlock() {
+		return currentBlock;
 	}
 
 	public String toString() {
