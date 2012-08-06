@@ -19,7 +19,7 @@ public class GameRunner implements Runnable {
 				}
 				game.moveCurrentBlock(Movment.down);
 				try {
-					game.wait(500);
+					game.wait(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

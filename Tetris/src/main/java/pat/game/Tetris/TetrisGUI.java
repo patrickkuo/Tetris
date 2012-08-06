@@ -42,6 +42,7 @@ public class TetrisGUI extends JFrame {
 		repaintThread.start();
 		
 		this.addKeyListener(new TetrisKeyListener(game));
+		tC.addKeyListener(new TetrisKeyListener(game));
 		
 		// set visible
 		this.setVisible(true);

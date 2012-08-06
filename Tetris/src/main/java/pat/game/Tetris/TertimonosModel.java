@@ -50,20 +50,20 @@ public class TertimonosModel {
 			}
 			break;
 
-		case S:
+		case Z:
 			result = new FieldCell[2][3];
 			result[0][0] = new FieldCell();
 			result[0][0].setFilled(true);
-			result[0][0].setFilledTeriminos(Tetriminos.S);
+			result[0][0].setFilledTeriminos(Tetriminos.Z);
 			result[0][1] = new FieldCell();
 			result[0][1].setFilled(true);
-			result[0][1].setFilledTeriminos(Tetriminos.S);
+			result[0][1].setFilledTeriminos(Tetriminos.Z);
 			result[1][1] = new FieldCell();
 			result[1][1].setFilled(true);
-			result[1][1].setFilledTeriminos(Tetriminos.S);
+			result[1][1].setFilledTeriminos(Tetriminos.Z);
 			result[1][2] = new FieldCell();
 			result[1][2].setFilled(true);
-			result[1][2].setFilledTeriminos(Tetriminos.S);
+			result[1][2].setFilledTeriminos(Tetriminos.Z);
 
 			break;
 
@@ -79,20 +79,20 @@ public class TertimonosModel {
 			result[1][1].setFilledTeriminos(Tetriminos.T);
 			break;
 
-		case Z:
+		case S:
 			result = new FieldCell[2][3];
 			result[1][0] = new FieldCell();
 			result[1][0].setFilled(true);
-			result[1][0].setFilledTeriminos(Tetriminos.Z);
+			result[1][0].setFilledTeriminos(Tetriminos.S);
 			result[1][1] = new FieldCell();
 			result[1][1].setFilled(true);
-			result[1][1].setFilledTeriminos(Tetriminos.Z);
+			result[1][1].setFilledTeriminos(Tetriminos.S);
 			result[0][1] = new FieldCell();
 			result[0][1].setFilled(true);
-			result[0][1].setFilledTeriminos(Tetriminos.Z);
+			result[0][1].setFilledTeriminos(Tetriminos.S);
 			result[0][2] = new FieldCell();
 			result[0][2].setFilled(true);
-			result[0][2].setFilledTeriminos(Tetriminos.Z);
+			result[0][2].setFilledTeriminos(Tetriminos.S);
 
 			break;
 

@@ -15,7 +15,7 @@ public class TetrisCanvas extends Canvas {
 	 */
 	private static final long serialVersionUID = 1L;
 	private PlayField playField;
-	private static final int BLOCK_WIDTH = 30;
+	private static final int BLOCK_WIDTH = 35;
 
 	public TetrisCanvas(PlayField playField) {
 
@@ -34,6 +34,7 @@ public class TetrisCanvas extends Canvas {
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
+		drawBackGround(g2d);
 		drawGrid(g2d);
 
 		g2.drawImage(bi, 0, 0, this);
@@ -47,9 +48,8 @@ public class TetrisCanvas extends Canvas {
 		for (int i = 2; i < fieldCell.length; i++) {
 			for (int j = 0; j < fieldCell[i].length; j++) {
 				if (fieldCell[i][j].isFilled()) {
-					
-					
-					switch(fieldCell[i][j].getFilledTeriminos()){
+
+					switch (fieldCell[i][j].getFilledTeriminos()) {
 					case I:
 						g2d.setColor(Color.CYAN);
 						break;
@@ -71,17 +71,31 @@ public class TetrisCanvas extends Canvas {
 					case Z:
 						g2d.setColor(Color.RED);
 						break;
-						default:break;
+					default:
+						break;
 					}
-					g2d.fillRoundRect(j * BLOCK_WIDTH + 10, i * BLOCK_WIDTH + 10,
-							BLOCK_WIDTH, BLOCK_WIDTH , 5 , 5);
+					g2d.fillRoundRect(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH
+							- 35, BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 					g2d.setStroke(new BasicStroke(2));
 					g2d.setColor(Color.BLACK);
-					g2d.drawRoundRect(j * BLOCK_WIDTH + 10, i * BLOCK_WIDTH + 10,
-							BLOCK_WIDTH, BLOCK_WIDTH , 5 , 5);
+					g2d.drawRoundRect(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH
+							- 35, BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 				}
 			}
 		}
+	}
+
+	private void drawBackGround(Graphics2D g2d) {
+
+		g2d.setStroke(new BasicStroke(6));
+		g2d.setColor(Color.WHITE);
+
+		g2d.fillRoundRect(33, 2 * BLOCK_WIDTH - 37, BLOCK_WIDTH * 10 + 4,
+				BLOCK_WIDTH * 20 + 4, 5, 5);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRoundRect(33, 2 * BLOCK_WIDTH - 37, BLOCK_WIDTH * 10 + 4,
+				BLOCK_WIDTH * 20 + 4, 5, 5);
+
 	}
 
 }

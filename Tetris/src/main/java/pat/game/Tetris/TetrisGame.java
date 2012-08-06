@@ -12,7 +12,6 @@ public class TetrisGame {
 		this.gameEnd = false;
 	}
 
-
 	public PlayField getPlayField() {
 		return playField;
 	}
@@ -22,11 +21,10 @@ public class TetrisGame {
 		playField.setCurrentBlock(current);
 		currentBlock.setGameField(playField);
 	}
-	
+
 	public Block getCurrentBlock() {
 		return currentBlock;
 	}
-
 
 	public void moveCurrentBlock(Movment move) {
 
@@ -37,10 +35,10 @@ public class TetrisGame {
 				currentBlock.moveDown();
 				break;
 			case left:
-				System.out.println("left");
+				currentBlock.moveLeft();
 				break;
 			case right:
-				System.out.println("right");
+				currentBlock.moveRight();
 				break;
 			case rotate:
 				currentBlock.rotate();
