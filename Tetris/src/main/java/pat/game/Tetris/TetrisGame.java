@@ -3,7 +3,7 @@ package pat.game.Tetris;
 public class TetrisGame {
 
 	private PlayField playField;
-	private Tetriminos currentBlock;
+	private Block currentBlock;
 	private boolean gameEnd;
 
 	public TetrisGame() {
@@ -17,14 +17,15 @@ public class TetrisGame {
 		return playField;
 	}
 
-	public void setCurrentBlock(Tetriminos current) {
+	public void setCurrentBlock(Block current) {
 		this.currentBlock = current;
 		playField.setCurrentBlock(current);
+		currentBlock.setGameField(playField);
 	}
 	
 	
 
-	public Tetriminos getCurrentBlock() {
+	public Block getCurrentBlock() {
 		return currentBlock;
 	}
 
@@ -35,7 +36,7 @@ public class TetrisGame {
 			switch (move) {
 
 			case down:
-				System.out.println("down");
+				currentBlock.moveDown();
 				break;
 			case left:
 				System.out.println("left");

@@ -25,6 +25,15 @@ public class FieldCell {
 	public void setFilledTeriminos(Tetriminos filledTeriminos) {
 		this.filledTeriminos = filledTeriminos;
 	}
+	
+	public void empty(){
+		this.filled = false;
+		this.filledTeriminos = null;
+	}
+	public void fill(Tetriminos type){
+		this.filled = true;
+		this.filledTeriminos = type;
+	}
 
 
 

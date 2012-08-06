@@ -3,7 +3,8 @@ package pat.game.Tetris;
 public class PlayField {
 
 	private FieldCell playField[][];
-	private Tetriminos currentBlock;
+	private Block currentBlock;
+	private int blockX,blockY;
 	
 
 	public PlayField() {
@@ -43,11 +44,9 @@ public class PlayField {
 		return result.toString();
 	}
 
-	public void setCurrentBlock(Tetriminos current) {
+	public void setCurrentBlock(Block current) {
 		// TODO Auto-generated method stub
-		this.currentBlock = current;
-		
-		
+		this.currentBlock = current;		
 	}
 
 }
