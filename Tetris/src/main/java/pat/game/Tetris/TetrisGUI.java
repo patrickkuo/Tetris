@@ -18,7 +18,6 @@ public class TetrisGUI extends JFrame {
 	public TetrisGUI(PlayField playField) {
 		super("Teris");
 		this.playField = playField;
-		
 		System.out.println(playField);	
 		
 		// set exit action
@@ -32,7 +31,13 @@ public class TetrisGUI extends JFrame {
 		int frameLocationY = (int) ((dim.getHeight() - frameHeight) / 2);
 
 		this.setBounds(frameLocationX, frameLocationY, frameWidth, frameHeight);
-
+		
+		TetrisCanvas tC = new TetrisCanvas(playField);
+		
+		tC.setBounds(2, 2, 600, 800);
+		
+		this.add(tC);
+		
 		// set visible
 		this.setVisible(true);
 		this.setResizable(false);

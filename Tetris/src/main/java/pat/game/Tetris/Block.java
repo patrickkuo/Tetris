@@ -35,7 +35,7 @@ public class Block {
 				y++;
 				addNew();
 			}
-			System.out.println(gameField);
+			//System.out.println(gameField);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class Block {
 		for (int i = 0; i < model.length; i++) {
 			for (int j = 0; j < model[i].length; j++) {
 
-				if (model[i][j]!=null && model[i][j].isFilled()) {
+				if (model[i][j] != null && model[i][j].isFilled()) {
 					this.gameField.getPlayField()[i + y][j + x + 3].empty();
 				}
 			}
@@ -59,7 +59,7 @@ public class Block {
 		for (int i = 0; i < model.length; i++) {
 			for (int j = 0; j < model[i].length; j++) {
 
-				if (model[i][j]!=null && model[i][j].isFilled()) {
+				if (model[i][j] != null && model[i][j].isFilled()) {
 					this.gameField.getPlayField()[i + y][j + x + 3].fill(type);
 				}
 			}
@@ -68,10 +68,23 @@ public class Block {
 
 	private boolean checkCollision(int xD, int yD) {
 
-				if(model.length + yD + this.y >22){
-					this.done = true;
-					return true;
+		if (model.length + yD + this.y > 22) {
+			System.out.println("called");
+			this.done = true;
+			return true;
+		} else {
+			for (int i = 0; i < model[model.length - 1].length; i++) {
+				if (model[model.length - 1][i] != null
+						&& model[model.length - 1][i].isFilled()) {
+					if (gameField.getPlayField()[y + yD +model.length - 1][xD + x + 3 + i]
+							.isFilled()) {
+						this.done = true;
+						return true;
+					}
 				}
+			}
+		}
+
 		return false;
 
 	}
