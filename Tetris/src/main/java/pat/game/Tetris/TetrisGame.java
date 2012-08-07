@@ -13,6 +13,11 @@ public class TetrisGame {
 	private TetrisCanvas canvas;
 	private Block nextBlock;
 	private Block storedBlock;
+	private int score;
+
+	public int getScore() {
+		return score;
+	}
 
 	public Block getNextBlock() {
 		return nextBlock;
@@ -96,7 +101,7 @@ public class TetrisGame {
 	public void removeFullRow(){
 		
 		List<List<FieldCell>> gameFieldCells = this.playField.getPlayField();
-		
+		int removedCount =0;
 		for (int i=GAME_HEIGHT-1; i>-1 ; i--){
 			int cellCounter = 0;
 			for (List<FieldCell> column:gameFieldCells){
@@ -113,10 +118,15 @@ public class TetrisGame {
 					tmpList.push(new FieldCell());
 				}
 				
+				removedCount++;
 				i++;
 			}
 		}
 		
+		if (removedCount==4){
+			removedCount = removedCount*2;
+		}
+		score = score + removedCount*100;
 	}
 	public void saveBlock(){
 		
