@@ -17,9 +17,7 @@ public class TetrisGUI extends JFrame {
 
 	public TetrisGUI(TetrisGame game) {
 		super("Teris");
-		this.game = game;
-		System.out.println(game.getPlayField());	
-		
+		this.game = game;		
 		// set exit action
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 

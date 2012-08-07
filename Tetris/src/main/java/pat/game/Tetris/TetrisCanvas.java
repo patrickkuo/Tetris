@@ -43,6 +43,7 @@ public class TetrisCanvas extends JPanel {
 
 		g2d.clearRect(0, 0, 800, 700);
 		drawNextBlock(g2d);
+		drawSaveBlock(g2d);
 		drawBackGround(g2d);
 		drawGrid(g2d);
 
@@ -105,18 +106,55 @@ public class TetrisCanvas extends JPanel {
 		FieldCell[][] nextBlock = game.getNextBlock().getModel();
 
 		if(nextBlock!=null){
-		
-			System.out.println(nextBlock.length +";"+ nextBlock[0].length);
-			
+					
 		for (int i = 0; i < nextBlock.length; i++) {
 			for (int j = 0; j < nextBlock[i].length; j++) {
 				if (nextBlock[i][j] != null) {
 					g2d.setColor(getColor(nextBlock[i][j].getFilledTeriminos()));
-					
-					g2d.fillRoundRect(BLOCK_WIDTH*(nextBlock[i].length/3) + BLOCK_WIDTH * (11+j), (2+i) * BLOCK_WIDTH +45,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
+					double xOffset = (2-(double)nextBlock[i].length/2)*BLOCK_WIDTH ;
+					double yOffset = (1.5-(double)nextBlock.length/2)*BLOCK_WIDTH;
+										
+					g2d.fillRoundRect((int)xOffset + BLOCK_WIDTH * (12+j), (3+i) * BLOCK_WIDTH + (int)yOffset,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 					g2d.setStroke(new BasicStroke(2));
 					g2d.setColor(Color.BLACK);
-					g2d.drawRoundRect(BLOCK_WIDTH*(nextBlock[i].length/3) + BLOCK_WIDTH * (11+j), (2+i) * BLOCK_WIDTH+45,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
+					g2d.drawRoundRect((int)xOffset + BLOCK_WIDTH * (12+j), (3+i) * BLOCK_WIDTH + (int)yOffset,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
+				}
+			}
+		}
+		}
+	}
+	
+	private void drawSaveBlock(Graphics2D g2d){
+		
+		g2d.setStroke(new BasicStroke(4));
+		g2d.setColor(Color.WHITE);
+		g2d.fillRoundRect(5 + BLOCK_WIDTH * 11, 2 * BLOCK_WIDTH +141, 170, 170,
+				5, 5);
+		g2d.setColor(Color.green);
+		g2d.fillRoundRect(5 + BLOCK_WIDTH * 11, 2 * BLOCK_WIDTH +141, 170, 40,
+				5, 5);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRoundRect(5 + BLOCK_WIDTH * 11, 2 * BLOCK_WIDTH +141, 170, 170,
+				5, 5);
+		g2d.drawRoundRect(5 + BLOCK_WIDTH * 11, 2 * BLOCK_WIDTH +141, 170, 40,
+				5, 5);
+
+		Block storedBlock = game.getStoredBlock();
+
+		if(storedBlock!=null){
+		FieldCell[][] model = storedBlock.getModel();	
+		
+		for (int i = 0; i < model.length; i++) {
+			for (int j = 0; j < model[i].length; j++) {
+				if (model[i][j] != null) {
+					g2d.setColor(getColor(model[i][j].getFilledTeriminos()));
+					double xOffset = (2-(double)model[i].length/2)*BLOCK_WIDTH ;
+					double yOffset = (1.5-(double)model.length/2)*BLOCK_WIDTH;
+										
+					g2d.fillRoundRect((int)xOffset + BLOCK_WIDTH * (12+j), (3+i) * BLOCK_WIDTH + (int)yOffset + 170,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
+					g2d.setStroke(new BasicStroke(2));
+					g2d.setColor(Color.BLACK);
+					g2d.drawRoundRect((int)xOffset + BLOCK_WIDTH * (12+j), (3+i) * BLOCK_WIDTH + (int)yOffset + 170,BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 				}
 			}
 		}

@@ -1,6 +1,5 @@
 package pat.game.Tetris;
 
-import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -28,6 +27,11 @@ public class TetrisKeyListener implements KeyListener {
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			game.moveCurrentBlock(Movment.rotate);
+		}
+		if (e.getKeyCode() == KeyEvent.VK_ENTER){
+			
+			game.saveBlock();
+			
 		}
 
 	}

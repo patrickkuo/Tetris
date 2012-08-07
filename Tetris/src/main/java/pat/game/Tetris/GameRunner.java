@@ -16,13 +16,13 @@ public class GameRunner implements Runnable {
 			while (!game.isGameEnd()) {
 				
 				if (game.getNextBlock()==null) {
-					game.setNextBlock(randomBlock());
+					game.setNextBlock(TetrisGame.randomBlock());
 				}
 				if (game.getCurrentBlock()==null) {
-					game.setCurrentBlock(randomBlock());
+					game.setCurrentBlock(TetrisGame.randomBlock());
 				}else if(game.getCurrentBlock().isDone()){
 					game.setCurrentBlock(game.getNextBlock());
-					game.setNextBlock(randomBlock());
+					game.setNextBlock(TetrisGame.randomBlock());
 				}
 				game.moveCurrentBlock(Movment.down);
 				try {
@@ -35,14 +35,7 @@ public class GameRunner implements Runnable {
 		}
 	}
 	
-	private Block randomBlock() {
-		
-		int random = (int) (Math.random()*Tetriminos.values().length);
-		System.out.println(Tetriminos.values()[random]);
-		Tetriminos randomBlock = Tetriminos.values()[random];
-		
-		return new Block(randomBlock);
-	}
+
 
 
 }

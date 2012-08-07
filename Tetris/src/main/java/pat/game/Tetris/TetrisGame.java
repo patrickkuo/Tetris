@@ -118,4 +118,24 @@ public class TetrisGame {
 		}
 		
 	}
+	public void saveBlock(){
+		
+		if(this.storedBlock == null){
+			this.storedBlock = randomBlock();
+		}
+		
+		Block tmpBlock = nextBlock;
+		nextBlock = storedBlock;
+		storedBlock = tmpBlock;
+		
+	}
+	
+	public static Block randomBlock() {
+		
+		int random = (int) (Math.random()*Tetriminos.values().length);
+		System.out.println(Tetriminos.values()[random]);
+		Tetriminos randomBlock = Tetriminos.values()[random];
+		
+		return new Block(randomBlock);
+	}
 }

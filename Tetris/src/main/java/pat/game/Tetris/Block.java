@@ -4,9 +4,6 @@ import java.util.List;
 
 public class Block {
 	
-	private static final int GAME_HEIGHT = 22;
-	private static final int GAME_WIDTH = 10;
-
 	private FieldCell[][] model;
 	
 	public FieldCell[][] getModel() {
