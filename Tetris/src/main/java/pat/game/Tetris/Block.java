@@ -8,6 +8,11 @@ public class Block {
 	private static final int GAME_WIDTH = 10;
 
 	private FieldCell[][] model;
+	
+	public FieldCell[][] getModel() {
+		return model;
+	}
+
 	private int x, y;
 	private PlayField gameField;
 	private Tetriminos type;
@@ -114,13 +119,20 @@ public class Block {
 		if (x + 2 < 0) {
 			return true;
 		}
-
+	
+		cleanOld();
 		for (int i = 0; i < model.length; i++) {
-			if (model[i][0] != null
-					&& this.gameField.getPlayField().get(x + 2).get(i + y).isFilled()) {
-				return true;
+			for (int j = 0; j < model[i].length; j++) {
+
+				if (model[i][j] != null) {
+					if (gameField.getPlayField().get(x + 2 + j).get(y + i).isFilled()) {
+						addNew();
+						return true;
+					}
+				}
 			}
 		}
+		addNew();
 
 		return false;
 	}
@@ -130,12 +142,20 @@ public class Block {
 		if (x + 3 + model[0].length > 9) {
 			return true;
 		}
+		cleanOld();
 		for (int i = 0; i < model.length; i++) {
-			if (model[i][model[0].length - 1] != null
-					&& this.gameField.getPlayField().get(x + 3+ model[0].length).get(i + y).isFilled()) {
-				return true;
+			for (int j = 0; j < model[i].length; j++) {
+
+				if (model[i][j] != null) {
+					if (gameField.getPlayField().get(x + 3+ j + 1).get(y + i).isFilled()) {
+						addNew();
+						return true;
+					}
+				}
 			}
 		}
+		addNew();
+		
 
 		return false;
 	}

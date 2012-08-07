@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 
 public class TetrisGUI extends JFrame {
 
-	private static final int FRAME_WIDTH = 600;
-	private static final int FRAME_HEIGHT = 800;
+	private static final int FRAME_WIDTH = 800;
+	private static final int FRAME_HEIGHT = 700;
 	private TetrisGame game;
 	/**
 	 * 
@@ -33,8 +33,8 @@ public class TetrisGUI extends JFrame {
 		this.setBounds(frameLocationX, frameLocationY, frameWidth, frameHeight);
 		
 		// canvas class handle drawings
-		final TetrisCanvas tC = new TetrisCanvas(game.getPlayField());
-		tC.setBounds(2, 2, 600, 800);
+		final TetrisCanvas tC = new TetrisCanvas(game);
+		tC.setBounds(2, 2, 800, 700);
 		this.add(tC);
 		game.setCanvas(tC);
 		

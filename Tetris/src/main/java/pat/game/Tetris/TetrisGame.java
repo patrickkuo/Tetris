@@ -11,6 +11,24 @@ public class TetrisGame {
 	private Block currentBlock;
 	private boolean gameEnd;
 	private TetrisCanvas canvas;
+	private Block nextBlock;
+	private Block storedBlock;
+
+	public Block getNextBlock() {
+		return nextBlock;
+	}
+
+	public void setNextBlock(Block nextBlock) {
+		this.nextBlock = nextBlock;
+	}
+
+	public Block getStoredBlock() {
+		return storedBlock;
+	}
+
+	public void setStoredBlock(Block storedBlock) {
+		this.storedBlock = storedBlock;
+	}
 
 	public TetrisGame() {
 		playField = new PlayField();

@@ -14,8 +14,15 @@ public class GameRunner implements Runnable {
 		synchronized (game) {
 			
 			while (!game.isGameEnd()) {
-				if (game.getCurrentBlock()==null || game.getCurrentBlock().isDone()) {
+				
+				if (game.getNextBlock()==null) {
+					game.setNextBlock(randomBlock());
+				}
+				if (game.getCurrentBlock()==null) {
 					game.setCurrentBlock(randomBlock());
+				}else if(game.getCurrentBlock().isDone()){
+					game.setCurrentBlock(game.getNextBlock());
+					game.setNextBlock(randomBlock());
 				}
 				game.moveCurrentBlock(Movment.down);
 				try {
