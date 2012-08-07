@@ -32,7 +32,7 @@ public class GameRunner implements Runnable {
 					game.wait((gameSpeed>50)?gameSpeed:50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return;
 				}
 			}
 		}

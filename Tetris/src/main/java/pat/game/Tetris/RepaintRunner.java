@@ -19,7 +19,7 @@ public class RepaintRunner implements Runnable{
 					tC.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return;
 				}
 			}
 		}
