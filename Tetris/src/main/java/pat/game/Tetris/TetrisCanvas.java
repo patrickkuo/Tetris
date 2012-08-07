@@ -1,14 +1,12 @@
 package pat.game.Tetris;
 
-import java.awt.BasicStroke;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
-public class TetrisCanvas extends Canvas {
+import javax.swing.JPanel;
+
+public class TetrisCanvas extends JPanel {
 
 	/**
 	 * 
@@ -16,6 +14,8 @@ public class TetrisCanvas extends Canvas {
 	private static final long serialVersionUID = 1L;
 	private PlayField playField;
 	private static final int BLOCK_WIDTH = 35;
+	private BufferedImage bi;
+	private Graphics2D g2d;
 
 	public TetrisCanvas(PlayField playField) {
 
@@ -24,32 +24,39 @@ public class TetrisCanvas extends Canvas {
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
+	public void paintComponent(Graphics graphics) {
 
-		Graphics2D g2 = (Graphics2D) graphics;
+		// Graphics2D g2 = (Graphics2D) graphics;
 
-		BufferedImage bi = (BufferedImage) createImage(600, 800);
-		Graphics2D g2d = bi.createGraphics();
+		if (this.bi == null) {
+			this.bi = (BufferedImage) createImage(600, 800);
+		}
 
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		if (this.g2d == null) {
+			this.g2d = bi.createGraphics();
 
+			g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_ON);
+		}
+		
+		g2d.clearRect(0, 0, 600, 800);
 		drawBackGround(g2d);
 		drawGrid(g2d);
 
-		g2.drawImage(bi, 0, 0, this);
+		graphics.drawImage(bi, 0, 0, this);
 
 	}
 
 	private void drawGrid(Graphics2D g2d) {
 
-		FieldCell[][] fieldCell = playField.getPlayField();
+		List<List<FieldCell>>  fieldCell = playField.getPlayField();
 
-		for (int i = 2; i < fieldCell.length; i++) {
-			for (int j = 0; j < fieldCell[i].length; j++) {
-				if (fieldCell[i][j].isFilled()) {
+		for (List<FieldCell> column:fieldCell) {
+			for (int i = 2; i<22;i++) {    // display only 20 rows
+				FieldCell cell = column.get(i);
+				if (cell.isFilled()) {
 
-					switch (fieldCell[i][j].getFilledTeriminos()) {
+					switch (cell.getFilledTeriminos()) {
 					case I:
 						g2d.setColor(Color.CYAN);
 						break;
@@ -74,11 +81,11 @@ public class TetrisCanvas extends Canvas {
 					default:
 						break;
 					}
-					g2d.fillRoundRect(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH
+					g2d.fillRoundRect(fieldCell.indexOf(column) * BLOCK_WIDTH + 35, column.indexOf(cell) * BLOCK_WIDTH
 							- 35, BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 					g2d.setStroke(new BasicStroke(2));
 					g2d.setColor(Color.BLACK);
-					g2d.drawRoundRect(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH
+					g2d.drawRoundRect(fieldCell.indexOf(column) * BLOCK_WIDTH + 35, column.indexOf(cell) * BLOCK_WIDTH
 							- 35, BLOCK_WIDTH, BLOCK_WIDTH, 5, 5);
 				}
 			}

@@ -1,10 +1,16 @@
 package pat.game.Tetris;
 
-public class TetrisGame {
+import java.util.LinkedList;
+import java.util.List;
 
+public class TetrisGame {
+	
+	private static final int GAME_HEIGHT = 22;
+	private static final int GAME_WIDTH = 10;
 	private PlayField playField;
 	private Block currentBlock;
 	private boolean gameEnd;
+	private TetrisCanvas canvas;
 
 	public TetrisGame() {
 		playField = new PlayField();
@@ -47,11 +53,51 @@ public class TetrisGame {
 				System.out.println("error");
 				break;
 			}
+			synchronized (canvas) {	
+				canvas.notifyAll();
+			}
 			gameEnd = currentBlock.isGameEnd();
+			
+			if(currentBlock.isDone()){
+				removeFullRow();
+			}
 		}
 	}
 
 	public boolean isGameEnd() {
 		return gameEnd;
+	}
+
+	public TetrisCanvas getCanvas() {
+		return canvas;
+	}
+
+	public void setCanvas(TetrisCanvas canvas) {
+		this.canvas = canvas;
+	}
+	public void removeFullRow(){
+		
+		List<List<FieldCell>> gameFieldCells = this.playField.getPlayField();
+		
+		for (int i=GAME_HEIGHT-1; i>-1 ; i--){
+			int cellCounter = 0;
+			for (List<FieldCell> column:gameFieldCells){
+				if(column.get(i).isFilled()){
+					cellCounter++;
+				}
+			}
+			if(cellCounter==GAME_WIDTH){
+
+				for (List<FieldCell> column:gameFieldCells){
+					
+					LinkedList<FieldCell> tmpList = (LinkedList<FieldCell>) column;
+					tmpList.remove(i);
+					tmpList.push(new FieldCell());
+				}
+				
+				i++;
+			}
+		}
+		
 	}
 }

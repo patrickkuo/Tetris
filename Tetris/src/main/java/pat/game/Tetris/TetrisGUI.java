@@ -36,6 +36,7 @@ public class TetrisGUI extends JFrame {
 		final TetrisCanvas tC = new TetrisCanvas(game.getPlayField());
 		tC.setBounds(2, 2, 600, 800);
 		this.add(tC);
+		game.setCanvas(tC);
 		
 		// thread for repaint
 		Thread repaintThread = new Thread(new RepaintRunner(tC));

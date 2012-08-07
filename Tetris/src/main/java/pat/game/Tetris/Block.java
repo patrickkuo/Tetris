@@ -1,6 +1,11 @@
 package pat.game.Tetris;
 
+import java.util.List;
+
 public class Block {
+	
+	private static final int GAME_HEIGHT = 22;
+	private static final int GAME_WIDTH = 10;
 
 	private FieldCell[][] model;
 	private int x, y;
@@ -15,6 +20,7 @@ public class Block {
 		this.y = 0;
 		this.type = type;
 	}
+
 
 	public void setGameField(PlayField gameField) {
 		this.gameField = gameField;
@@ -85,9 +91,8 @@ public class Block {
 
 		for (int i = 0; i < model.length; i++) {
 			for (int j = 0; j < model[i].length; j++) {
-
 				if (model[i][j] != null && model[i][j].isFilled()) {
-					this.gameField.getPlayField()[i + y][j + x + 3].empty();
+					this.gameField.getPlayField().get(j + x + 3).get(i + y).empty();
 				}
 			}
 		}
@@ -98,7 +103,7 @@ public class Block {
 			for (int j = 0; j < model[i].length; j++) {
 
 				if (model[i][j] != null && model[i][j].isFilled()) {
-					this.gameField.getPlayField()[i + y][j + x + 3].fill(type);
+					this.gameField.getPlayField().get(j + x + 3).get(i + y).fill(type);
 				}
 			}
 		}
@@ -112,7 +117,7 @@ public class Block {
 
 		for (int i = 0; i < model.length; i++) {
 			if (model[i][0] != null
-					&& this.gameField.getPlayField()[i + y][x + 2].isFilled()) {
+					&& this.gameField.getPlayField().get(x + 2).get(i + y).isFilled()) {
 				return true;
 			}
 		}
@@ -127,8 +132,7 @@ public class Block {
 		}
 		for (int i = 0; i < model.length; i++) {
 			if (model[i][model[0].length - 1] != null
-					&& this.gameField.getPlayField()[i + y][x + 3
-							+ model[0].length].isFilled()) {
+					&& this.gameField.getPlayField().get(x + 3+ model[0].length).get(i + y).isFilled()) {
 				return true;
 			}
 		}
@@ -147,8 +151,7 @@ public class Block {
 			for (int j = 0; j < model[i].length; j++) {
 
 				if (model[i][j] != null) {
-					if (gameField.getPlayField()[y + i + 1][x + 3 + j]
-							.isFilled()) {
+					if (gameField.getPlayField().get(x + 3 + j).get(y + i + 1).isFilled()) {
 						addNew();
 						this.done = true;
 						return true;
@@ -185,8 +188,7 @@ public class Block {
 		for (int i = 0; i < newModel.length; i++) {
 			for (int j = 0; j < newModel[i].length; j++) {
 				if (newModel[i][j] != null
-						&& this.gameField.getPlayField()[i + tmpY][j + x + 3]
-								.isFilled()) {
+						&& this.gameField.getPlayField().get(j + x + 3).get(i + tmpY).isFilled()) {
 					result = true;
 				}
 
@@ -195,7 +197,7 @@ public class Block {
 
 		addNew();
 		return result;
-		}catch (ArrayIndexOutOfBoundsException e){
+		}catch (IndexOutOfBoundsException e){
 			addNew();
 			return true;
 		}
@@ -206,8 +208,8 @@ public class Block {
 	}
 
 	private void checkLose() {
-		for (int i = 0; i < gameField.getPlayField()[1].length; i++) {
-			if (gameField.getPlayField()[1][i].isFilled()) {
+		for (List<FieldCell> column:gameField.getPlayField()) {
+			if (column.get(1).isFilled()) {
 				this.gameEnd = true;
 			}
 		}

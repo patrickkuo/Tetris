@@ -16,7 +16,7 @@ public class RepaintRunner implements Runnable{
 			while(true){
 				try {
 					tC.repaint();
-					tC.wait(50);
+					tC.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
