@@ -25,8 +25,11 @@ public class GameRunner implements Runnable {
 					game.setNextBlock(TetrisGame.randomBlock());
 				}
 				game.moveCurrentBlock(Movment.down);
+				
+				int gameSpeed = 500 - game.getScore()/10;
+				
 				try {
-					game.wait(500);
+					game.wait((gameSpeed>50)?gameSpeed:50);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
