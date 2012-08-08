@@ -1,6 +1,8 @@
 package pat.game.Tetris;
 
-public class FieldCell {
+import java.io.Serializable;
+
+public class FieldCell implements Serializable{
 	
 	private boolean filled;
 	private Tetriminos filledTeriminos;

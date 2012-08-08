@@ -16,8 +16,10 @@ public class MPConnectFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public MPConnectFrame(final TetrisGUI mainFrame) {
-
+		
 		super("Connect to Remote Game");
+		mainFrame.getGameThread().interrupt();
+		mainFrame.getRepaintThread().interrupt();
 		setLayout(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -35,7 +37,7 @@ public class MPConnectFrame extends JFrame {
 		connectButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				MPConnection.send(mainFrame, ipField.getText());
+				MPConnection.send(mainFrame, ipField.getText(),1234);
 			}
 		});
 

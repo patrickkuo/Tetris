@@ -5,7 +5,7 @@ import java.net.*;
 
 public class MPConnection {
 
-	public static void send(TetrisGUI mainFrame, String ip) {
+	public static void send(TetrisGUI mainFrame, String ip,int port) {
 
 		mainFrame.newGame();
 
@@ -14,7 +14,7 @@ public class MPConnection {
 			InetAddress addr = InetAddress.getLocalHost();
 			String hostIP = addr.getHostAddress();
 			
-			Socket s = new Socket(ip, 1234);
+			Socket s = new Socket(ip, port);
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 			MPGameData data = new MPGameData(mainFrame.getGame().getPlayField(), hostIP);
 			out.writeObject(data);
@@ -27,11 +27,11 @@ public class MPConnection {
 
 	}
 	
-	public static void recieve() {
+	public static void recieve(int port) {
 		
 		try {
 			
-			ServerSocket server = new ServerSocket(1234);
+			ServerSocket server = new ServerSocket(port);
 			Socket s = server.accept();
 			ObjectInputStream in = new ObjectInputStream(s.getInputStream());
 			MPGameData objectReceived = (MPGameData) in.readObject();

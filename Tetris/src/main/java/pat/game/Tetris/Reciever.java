@@ -1,17 +1,14 @@
 package pat.game.Tetris;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 public class Reciever implements Runnable {
 
 	private TetrisGUI gameGUI;
+	private int port;
 
-	public Reciever(TetrisGUI gameGUI) {
+	public Reciever(TetrisGUI gameGUI,int port) {
 
 		this.gameGUI = gameGUI;
+		this.port = port;
 
 	}
 
@@ -22,7 +19,7 @@ public class Reciever implements Runnable {
 		while (!gameGUI.getGame().isGameEnd()) {
 			System.out.println("inside");
 			
-			MPConnection.recieve();
+			MPConnection.recieve(port);
 			
 			try {
 				Thread.sleep(1000);

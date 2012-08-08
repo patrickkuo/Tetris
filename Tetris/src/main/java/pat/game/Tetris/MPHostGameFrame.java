@@ -16,6 +16,8 @@ public class MPHostGameFrame extends JFrame{
 	public MPHostGameFrame(TetrisGUI mainFrame) {
 		
 		super("Waiting for Player...");
+		mainFrame.getGameThread().interrupt();
+		mainFrame.getRepaintThread().interrupt();
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -27,7 +29,7 @@ public class MPHostGameFrame extends JFrame{
 		
 		setVisible(true);
 		
-		Thread recieveThread = new Thread(new Reciever(mainFrame));
+		Thread recieveThread = new Thread(new Reciever(mainFrame,1235));
 		recieveThread.start();
 	
 	}

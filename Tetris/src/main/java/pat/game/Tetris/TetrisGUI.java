@@ -162,4 +162,12 @@ public class TetrisGUI extends JFrame {
 		this.game2 = game2;
 	}
 
+	public Thread getGameThread() {
+		return gameThread;
+	}
+
+	public Thread getRepaintThread() {
+		return repaintThread;
+	}
+
 }
