@@ -28,7 +28,7 @@ public class MPConnection {
 
 	}
 	
-	public static void recieve(int port) {
+	public static void recieve(int port,TetrisGUI mainFrame) {
 		
 		try {
 			
@@ -40,7 +40,7 @@ public class MPConnection {
 			if(objectReceived==null){
 				System.out.println("waiting");
 			}else{
-				System.out.println("connected!!");
+				mainFrame.setGame2(objectReceived.getPlayField());
 			}
 			
 			s.close();

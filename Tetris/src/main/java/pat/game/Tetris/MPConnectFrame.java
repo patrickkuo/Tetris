@@ -5,10 +5,11 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-public class MPConnectFrame extends JFrame {
+public class MPConnectFrame extends JDialog {
 
 	/**
 	 * 
@@ -17,11 +18,10 @@ public class MPConnectFrame extends JFrame {
 
 	public MPConnectFrame(final TetrisGUI mainFrame) {
 		
-		super("Connect to Remote Game");
 		mainFrame.getGameThread().interrupt();
 		mainFrame.getRepaintThread().interrupt();
 		setLayout(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		int frameLocationX = (int) ((dim.getWidth() - 300) / 2);
@@ -37,7 +37,7 @@ public class MPConnectFrame extends JFrame {
 		connectButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				MPConnection.send(mainFrame, ipField.getText(),1234);
+				connect(mainFrame, ipField.getText(), 1234);
 			}
 		});
 
@@ -49,6 +49,13 @@ public class MPConnectFrame extends JFrame {
 
 		setVisible(true);
 
+	}
+	
+	private void connect(TetrisGUI mainFrame, String ip , int port){
+		
+		System.out.println("called");
+		Thread thread = new Thread(new Sender(mainFrame, ip, port));
+		thread.run();
 	}
 
 

@@ -17,7 +17,7 @@ public class TetrisGUI extends JFrame {
 	private static final int FRAME_WIDTH = 850;
 	private static final int FRAME_HEIGHT = 720;
 	private TetrisGame game;
-	private TetrisGame game2;
+	private PlayField game2;
 	private Thread gameThread;
 	private Thread repaintThread;
 	private TetrisCanvas tC;
@@ -134,6 +134,29 @@ public class TetrisGUI extends JFrame {
 		// game thread
 		gameThread = new Thread(new GameRunner(game));
 	}
+	
+	public void newMPGame() {
+
+		this.removeKeyListener(this.getKeyListeners()[0]);
+		this.game = new TetrisGame();
+		this.remove(tC);
+		tC = new TetrisCanvas(game,game2);
+		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+		this.addKeyListener(new TetrisKeyListener(game));
+		tC.addKeyListener(new TetrisKeyListener(game));
+		this.add(tC);
+		game.setCanvas(tC);
+		
+		// kill old thread
+		gameThread.interrupt();
+		repaintThread.interrupt();
+		
+		// thread for repaint
+		repaintThread = new Thread(new RepaintRunner(tC));
+		
+		// game thread
+		gameThread = new Thread(new GameRunner(game));
+	}
 
 	public void start() {
 		
@@ -154,11 +177,11 @@ public class TetrisGUI extends JFrame {
 		return game;
 	}
 
-	public TetrisGame getGame2() {
+	public PlayField getGame2() {
 		return game2;
 	}
 
-	public void setGame2(TetrisGame game2) {
+	public void setGame2(PlayField game2) {
 		this.game2 = game2;
 	}
 

@@ -3,9 +3,10 @@ package pat.game.Tetris;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-public class MPHostGameFrame extends JFrame{
+public class MPHostGameFrame extends JDialog{
 
 	/**
 	 * 
@@ -15,11 +16,10 @@ public class MPHostGameFrame extends JFrame{
 	
 	public MPHostGameFrame(TetrisGUI mainFrame) {
 		
-		super("Waiting for Player...");
 		mainFrame.getGameThread().interrupt();
 		mainFrame.getRepaintThread().interrupt();
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		int frameLocationX = (int) ((dim.getWidth() - 200) / 2);

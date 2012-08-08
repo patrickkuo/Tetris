@@ -37,7 +37,7 @@ public class TetrisCanvas extends JPanel {
 		int startPos = (game2 == null) ? 6 * BLOCK_WIDTH : 0;
 
 		graphics.clearRect(0, 0, 850, 720);
-		
+
 		graphics.drawImage(
 				blockInfo("Stored Block", Color.YELLOW, game.getStoredBlock()),
 				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH * 5, this);
@@ -45,26 +45,30 @@ public class TetrisCanvas extends JPanel {
 				blockInfo("Next Block", Color.GREEN, game.getNextBlock()),
 				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH, this);
 		graphics.drawImage(drawScore(Integer.toString(game.getScore())),
-				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH *9, this);
-		graphics.drawImage(playArea(game.getPlayField().getPlayField(),game.isGameEnd()),
+				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH * 9, this);
+		graphics.drawImage(
+				playArea(game.getPlayField().getPlayField(), game.isGameEnd()),
 				BLOCK_WIDTH + startPos, BLOCK_WIDTH, this);
 
 		if (game2 != null) {
-			graphics.drawImage(playArea(game2.getPlayField(),false),
+			graphics.drawImage(playArea(game2.getPlayField(), false),
 					BLOCK_WIDTH * 17, BLOCK_WIDTH, this);
 		}
 	}
 
-	private BufferedImage playArea(List<List<FieldCell>> fieldCell,boolean gameEnd) {
+	private BufferedImage playArea(List<List<FieldCell>> fieldCell,
+			boolean gameEnd) {
 		// create buffer image to draw on
 		int borderWidth = 3;
-		
-		int imageType = (gameEnd)?BufferedImage.TYPE_BYTE_GRAY:BufferedImage.TYPE_3BYTE_BGR;
-		
-		BufferedImage bi = new BufferedImage(BLOCK_WIDTH * 10
-				+ borderWidth * 2, BLOCK_WIDTH * 20 + borderWidth * 2, imageType);
+
+		int imageType = (gameEnd) ? BufferedImage.TYPE_BYTE_GRAY
+				: BufferedImage.TYPE_3BYTE_BGR;
+
+		BufferedImage bi = new BufferedImage(
+				BLOCK_WIDTH * 10 + borderWidth * 2, BLOCK_WIDTH * 20
+						+ borderWidth * 2, imageType);
 		Graphics2D g2d = bi.createGraphics();
-		
+
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -78,29 +82,29 @@ public class TetrisCanvas extends JPanel {
 				+ borderWidth, BLOCK_WIDTH * 20 + borderWidth, 5, 5);
 
 		// draw blocks
+		if (fieldCell != null) {
+			for (List<FieldCell> column : fieldCell) {
+				for (int i = 2; i < 22; i++) { // display only 20 rows
+					FieldCell cell = column.get(i);
+					if (cell.isFilled()) {
 
-		for (List<FieldCell> column : fieldCell) {
-			for (int i = 2; i < 22; i++) { // display only 20 rows
-				FieldCell cell = column.get(i);
-				if (cell.isFilled()) {
+						g2d.setColor(getColor(cell.getFilledTeriminos()));
 
-					g2d.setColor(getColor(cell.getFilledTeriminos()));
+						int xPos = fieldCell.indexOf(column) * BLOCK_WIDTH
+								+ borderWidth;
+						int yPos = (column.indexOf(cell) - 2) * BLOCK_WIDTH
+								+ borderWidth;
 
-					int xPos = fieldCell.indexOf(column) * BLOCK_WIDTH
-							+ borderWidth;
-					int yPos = (column.indexOf(cell) - 2) * BLOCK_WIDTH
-							+ borderWidth;
-
-					g2d.fillRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH, 5,
-							5);
-					g2d.setStroke(new BasicStroke(2));
-					g2d.setColor(Color.BLACK);
-					g2d.drawRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH, 5,
-							5);
+						g2d.fillRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,
+								5, 5);
+						g2d.setStroke(new BasicStroke(2));
+						g2d.setColor(Color.BLACK);
+						g2d.drawRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,
+								5, 5);
+					}
 				}
 			}
 		}
-
 		return bi;
 
 	}
@@ -166,7 +170,8 @@ public class TetrisCanvas extends JPanel {
 	private BufferedImage drawScore(String score) {
 
 		int borderWidth = 3;
-		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH+ borderWidth, BLOCK_WIDTH * 2 + borderWidth);
+		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH
+				+ borderWidth, BLOCK_WIDTH * 2 + borderWidth);
 		Graphics2D g2d = bi.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);

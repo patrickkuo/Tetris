@@ -15,11 +15,13 @@ public class Reciever implements Runnable {
 	public void run() {
 
 		System.out.println("running");
-
+		gameGUI.newMPGame();
+		gameGUI.start();
+		
 		while (!gameGUI.getGame().isGameEnd()) {
 			System.out.println("inside");
 			
-			MPConnection.recieve(port);
+			MPConnection.recieve(port,gameGUI);
 			
 			try {
 				Thread.sleep(1000);
