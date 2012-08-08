@@ -79,11 +79,12 @@ public class TetrisGame {
 			synchronized (canvas) {	
 				canvas.notifyAll();
 			}
-			gameEnd = currentBlock.isGameEnd();
 			
 			if(currentBlock.isDone()){
 				removeFullRow();
+				checkLose();
 			}
+
 		}
 	}
 
@@ -147,5 +148,13 @@ public class TetrisGame {
 		Tetriminos randomBlock = Tetriminos.values()[random];
 		
 		return new Block(randomBlock);
+	}
+	
+	private void checkLose() {
+		for (List<FieldCell> column:playField.getPlayField()) {
+			if (column.get(1).isFilled()) {
+				this.gameEnd = true;
+			}
+		}
 	}
 }

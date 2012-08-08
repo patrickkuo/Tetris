@@ -1,7 +1,5 @@
 package pat.game.Tetris;
 
-import java.util.List;
-
 public class Block {
 	
 	private FieldCell[][] model;
@@ -14,7 +12,6 @@ public class Block {
 	private PlayField gameField;
 	private Tetriminos type;
 	private boolean done;
-	private boolean gameEnd;
 
 	public Block(Tetriminos type) {
 		this.model = TertimonosModel.getModel(type);
@@ -56,8 +53,6 @@ public class Block {
 				cleanOld();
 				y++;
 				addNew();
-			} else {
-				checkLose();
 			}
 			// System.out.println(gameField);
 		}
@@ -222,17 +217,5 @@ public class Block {
 
 	public boolean isDone() {
 		return this.done;
-	}
-
-	private void checkLose() {
-		for (List<FieldCell> column:gameField.getPlayField()) {
-			if (column.get(1).isFilled()) {
-				this.gameEnd = true;
-			}
-		}
-	}
-
-	public boolean isGameEnd() {
-		return gameEnd;
 	}
 }
