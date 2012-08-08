@@ -5,32 +5,32 @@ import java.awt.event.KeyListener;
 
 public class TetrisKeyListener implements KeyListener {
 
-	private TetrisGame game;
+	private TetrisGUI mainFrame;
 
-	public TetrisKeyListener(TetrisGame game) {
+	public TetrisKeyListener(TetrisGUI mainFrame) {
 
-		this.game = game;
+		this.mainFrame = mainFrame;
 
 	}
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			game.moveCurrentBlock(Movment.down);
+			mainFrame.getGame().moveCurrentBlock(Movment.down);
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			game.moveCurrentBlock(Movment.left);
+			mainFrame.getGame().moveCurrentBlock(Movment.left);
 
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			game.moveCurrentBlock(Movment.right);
+			mainFrame.getGame().moveCurrentBlock(Movment.right);
 
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			game.moveCurrentBlock(Movment.rotate);
+			mainFrame.getGame().moveCurrentBlock(Movment.rotate);
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER){
 			
-			game.saveBlock();
+			mainFrame.getGame().saveBlock();
 			
 		}
 

@@ -8,11 +8,11 @@ import java.awt.event.MouseWheelListener;
 
 public class TetrisMouseMotionListener implements MouseMotionListener,MouseListener,MouseWheelListener{
 
-	private TetrisGame game;
+	private TetrisGUI mainFrame;
 
-	public TetrisMouseMotionListener(TetrisGame game){
+	public TetrisMouseMotionListener(TetrisGUI mainFrame){
 		
-		this.game = game;
+		this.mainFrame = mainFrame;
 		
 	}
 	
@@ -31,11 +31,11 @@ public class TetrisMouseMotionListener implements MouseMotionListener,MouseListe
 			xPos=6;
 		}		
 		
-		if(xPos>game.getCurrentBlock().getX()){
-			game.moveCurrentBlock(Movment.right);
+		if(xPos>mainFrame.getGame().getCurrentBlock().getX()){
+			mainFrame.getGame().moveCurrentBlock(Movment.right);
 		}
-		if(xPos<game.getCurrentBlock().getX()){
-			game.moveCurrentBlock(Movment.left);
+		if(xPos<mainFrame.getGame().getCurrentBlock().getX()){
+			mainFrame.getGame().moveCurrentBlock(Movment.left);
 		}
 
 		
@@ -43,7 +43,7 @@ public class TetrisMouseMotionListener implements MouseMotionListener,MouseListe
 
 	public void mouseClicked(MouseEvent e) {
 		
-		game.moveCurrentBlock(Movment.rotate);
+		mainFrame.getGame().moveCurrentBlock(Movment.rotate);
 		
 	}
 
@@ -69,7 +69,7 @@ public class TetrisMouseMotionListener implements MouseMotionListener,MouseListe
 
 	public void mouseWheelMoved(MouseWheelEvent e) {
 
-		game.moveCurrentBlock(Movment.down);
+		mainFrame.getGame().moveCurrentBlock(Movment.down);
 		
 	}
 

@@ -86,11 +86,10 @@ public class TetrisGUI extends JFrame {
 		repaintThread = new Thread(new RepaintRunner(tC));
 		repaintThread.start();
 
-		this.addKeyListener(new TetrisKeyListener(game));
-		tC.addKeyListener(new TetrisKeyListener(game));
-		this.addMouseMotionListener(new TetrisMouseMotionListener(game));
-		this.addMouseListener(new TetrisMouseMotionListener(game));
-		this.addMouseWheelListener(new TetrisMouseMotionListener(game));
+		this.addKeyListener(new TetrisKeyListener(this));
+		this.addMouseMotionListener(new TetrisMouseMotionListener(this));
+		this.addMouseListener(new TetrisMouseMotionListener(this));
+		this.addMouseWheelListener(new TetrisMouseMotionListener(this));
 		// set visible
 		this.setVisible(true);
 		this.setResizable(false);
@@ -100,13 +99,11 @@ public class TetrisGUI extends JFrame {
 
 	public void newGame() {
 
-		this.removeKeyListener(this.getKeyListeners()[0]);
 		this.game = new TetrisGame();
 		this.remove(tC);
 		tC = new TetrisCanvas(game);
 		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-		this.addKeyListener(new TetrisKeyListener(game));
-		tC.addKeyListener(new TetrisKeyListener(game));
+
 		this.add(tC);
 		game.setCanvas(tC);
 		
