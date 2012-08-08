@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -56,26 +58,7 @@ public class TetrisGUI extends JFrame {
 		// add menu bar
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
-		JMenuItem singlePlayer = new JMenuItem("Single Player");
-		JMenu multiplayer = new JMenu("Multiplayer");
-		JMenuItem host = new JMenuItem("Host new Game");
-		JMenuItem connect = new JMenuItem("Connect to Remote Game");
-
-		connect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				connectFrame();
-			}
-		});
-
-		host.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				hostFrame();
-			}
-		});
-
-		multiplayer.add(host);
-		multiplayer.add(connect);
+		JMenuItem singlePlayer = new JMenuItem("New Game");
 
 		singlePlayer.addActionListener(new ActionListener() {
 
@@ -86,12 +69,11 @@ public class TetrisGUI extends JFrame {
 		});
 
 		gameMenu.add(singlePlayer);
-		gameMenu.add(multiplayer);
 		menuBar.add(gameMenu);
 		setJMenuBar(menuBar);
 
 		// canvas class handle drawings
-		tC = new TetrisCanvas(game,game.getPlayField());
+		tC = new TetrisCanvas(game);
 		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		this.add(tC);
 		game.setCanvas(tC);
@@ -106,10 +88,14 @@ public class TetrisGUI extends JFrame {
 
 		this.addKeyListener(new TetrisKeyListener(game));
 		tC.addKeyListener(new TetrisKeyListener(game));
-
+		this.addMouseMotionListener(new TetrisMouseMotionListener(game));
+		this.addMouseListener(new TetrisMouseMotionListener(game));
+		this.addMouseWheelListener(new TetrisMouseMotionListener(game));
 		// set visible
 		this.setVisible(true);
 		this.setResizable(false);
+		
+		
 	}
 
 	public void newGame() {
@@ -134,29 +120,6 @@ public class TetrisGUI extends JFrame {
 		// game thread
 		gameThread = new Thread(new GameRunner(game));
 	}
-	
-	public void newMPGame() {
-
-		this.removeKeyListener(this.getKeyListeners()[0]);
-		this.game = new TetrisGame();
-		this.remove(tC);
-		tC = new TetrisCanvas(game,game2);
-		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-		this.addKeyListener(new TetrisKeyListener(game));
-		tC.addKeyListener(new TetrisKeyListener(game));
-		this.add(tC);
-		game.setCanvas(tC);
-		
-		// kill old thread
-		gameThread.interrupt();
-		repaintThread.interrupt();
-		
-		// thread for repaint
-		repaintThread = new Thread(new RepaintRunner(tC));
-		
-		// game thread
-		gameThread = new Thread(new GameRunner(game));
-	}
 
 	public void start() {
 		
@@ -165,13 +128,6 @@ public class TetrisGUI extends JFrame {
 
 	}
 
-	private void connectFrame() {
-		new MPConnectFrame(this);
-	}
-
-	private void hostFrame() {
-		new MPHostGameFrame(this);
-	}
 
 	public TetrisGame getGame() {
 		return game;

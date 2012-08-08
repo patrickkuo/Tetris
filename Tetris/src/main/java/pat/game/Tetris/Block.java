@@ -218,4 +218,16 @@ public class Block{
 	public boolean isDone() {
 		return this.done;
 	}
+
+
+	public int getX() {
+		return x;
+	}
+
+
+	public int getY() {
+		return y;
+	}
+	
+	
 }
