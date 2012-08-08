@@ -24,7 +24,7 @@ public class TetrisGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public TetrisGUI(TetrisGame game) {
-		super("Teris");
+		super("Tetris");
 		this.game = game;
 		// set exit action
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -58,7 +58,7 @@ public class TetrisGUI extends JFrame {
 
 		// canvas class handle drawings
 		tC = new TetrisCanvas(game, game);
-		tC.setBounds(2, 2, 850, 700);
+		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		this.add(tC);
 		game.setCanvas(tC);
 
@@ -84,7 +84,7 @@ public class TetrisGUI extends JFrame {
 		this.game = new TetrisGame();
 		this.remove(tC);
 		tC = new TetrisCanvas(game);
-		tC.setBounds(2, 2, 850, 700);
+		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		this.addKeyListener(new TetrisKeyListener(game));
 		tC.addKeyListener(new TetrisKeyListener(game));
 		this.add(tC);
