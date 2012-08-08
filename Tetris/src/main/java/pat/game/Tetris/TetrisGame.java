@@ -3,7 +3,7 @@ package pat.game.Tetris;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TetrisGame {
+public class TetrisGame{
 	
 	private static final int GAME_HEIGHT = 22;
 	private static final int GAME_WIDTH = 10;

@@ -1,6 +1,6 @@
 package pat.game.Tetris;
 
-public class Block {
+public class Block{
 	
 	private FieldCell[][] model;
 	

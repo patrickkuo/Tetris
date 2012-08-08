@@ -14,7 +14,7 @@ public class TetrisCanvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final int BLOCK_WIDTH = 30;
 	private TetrisGame game;
-	private TetrisGame game2;
+	private PlayField game2;
 
 	public TetrisCanvas(TetrisGame game) {
 
@@ -23,7 +23,7 @@ public class TetrisCanvas extends JPanel {
 
 	}
 
-	public TetrisCanvas(TetrisGame game1, TetrisGame game2) {
+	public TetrisCanvas(TetrisGame game1, PlayField game2) {
 
 		this.game = game1;
 		this.game2 = game2;
@@ -50,7 +50,7 @@ public class TetrisCanvas extends JPanel {
 				BLOCK_WIDTH + startPos, BLOCK_WIDTH, this);
 
 		if (game2 != null) {
-			graphics.drawImage(playArea(game2.getPlayField().getPlayField(),game2.isGameEnd()),
+			graphics.drawImage(playArea(game2.getPlayField(),false),
 					BLOCK_WIDTH * 17, BLOCK_WIDTH, this);
 		}
 	}
