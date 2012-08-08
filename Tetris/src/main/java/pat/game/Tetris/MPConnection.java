@@ -20,6 +20,7 @@ public class MPConnection {
 			out.writeObject(data);
 			out.flush();
 			
+			s.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,6 +42,9 @@ public class MPConnection {
 			}else{
 				System.out.println("connected!!");
 			}
+			
+			s.close();
+			server.close();
 			
 			
 		} catch (IOException e) {

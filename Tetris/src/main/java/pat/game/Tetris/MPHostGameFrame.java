@@ -29,7 +29,7 @@ public class MPHostGameFrame extends JFrame{
 		
 		setVisible(true);
 		
-		Thread recieveThread = new Thread(new Reciever(mainFrame,1235));
+		Thread recieveThread = new Thread(new Reciever(mainFrame,1234));
 		recieveThread.start();
 	
 	}
