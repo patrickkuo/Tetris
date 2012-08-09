@@ -43,7 +43,7 @@ public class GameThread extends Thread {
 					game.setCurrentBlock(TetrisGame.randomBlock());
 				} else if (game.getCurrentBlock().isDone()) {
 					blockDone++;
-					if (blockDone == (500 - game.getScore() / 40) / 40) {
+					if (blockDone == (500 - game.getScore() / 50) / 25) {
 						blockDone = 0;
 						game.pushUP();
 					}
