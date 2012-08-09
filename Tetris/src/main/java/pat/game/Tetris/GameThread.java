@@ -64,18 +64,17 @@ public class GameThread extends Thread {
 
 	public void pauseThread() {
 		stopResume.setText("Resume");
+		game.setPause(true);
 		this.pause = true;
 	}
 
 	public void resumeThread() {
 		stopResume.setText("Pause");
-		System.out.println("called");
+		game.setPause(false);
 		this.pause = false;
 
 		synchronized (this) {
-
 			notify();
-
 		}
 
 	}

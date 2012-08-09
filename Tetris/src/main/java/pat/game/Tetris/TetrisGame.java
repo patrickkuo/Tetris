@@ -15,6 +15,7 @@ public class TetrisGame{
 	private Block nextBlock;
 	private Block storedBlock;
 	private int score;
+	private boolean pause;
 
 	public int getScore() {
 		return score;
@@ -58,7 +59,7 @@ public class TetrisGame{
 
 	public void moveCurrentBlock(Movment move) {
 
-		if (currentBlock != null) {
+		if (currentBlock != null && !pause) {
 			switch (move) {
 
 			case down:
@@ -174,5 +175,8 @@ public class TetrisGame{
 			Collections.rotate(column, -1);
 		}
 		checkLose();
+	}
+	public void setPause(boolean pause){
+		this.pause = pause;
 	}
 }
