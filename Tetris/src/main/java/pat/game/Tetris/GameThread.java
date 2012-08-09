@@ -37,10 +37,10 @@ public class GameThread extends Thread {
 				gameSpeed = (gameSpeed > 100) ? gameSpeed : 100;
 
 				if (game.getNextBlock() == null) {
-					game.setNextBlock(TetrisGame.randomBlock());
+					game.setNextBlock(game.randomBlock());
 				}
 				if (game.getCurrentBlock() == null) {
-					game.setCurrentBlock(TetrisGame.randomBlock());
+					game.setCurrentBlock(game.randomBlock());
 				} else if (game.getCurrentBlock().isDone()) {
 					blockDone++;
 					if (blockDone == (500 - game.getScore() / 50) / 25) {
@@ -48,7 +48,7 @@ public class GameThread extends Thread {
 						game.pushUP();
 					}
 					game.setCurrentBlock(game.getNextBlock());
-					game.setNextBlock(TetrisGame.randomBlock());
+					game.setNextBlock(game.randomBlock());
 				}
 				game.moveCurrentBlock(Movment.down);
 

@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TetrisGame{
-	
+public class TetrisGame {
+
 	private static final int GAME_HEIGHT = 22;
 	private static final int GAME_WIDTH = 10;
 	private PlayField playField;
@@ -16,6 +16,7 @@ public class TetrisGame{
 	private Block storedBlock;
 	private int score;
 	private boolean pause;
+	private List<Block> randomList;
 
 	public int getScore() {
 		return score;
@@ -41,6 +42,7 @@ public class TetrisGame{
 		playField = new PlayField();
 		currentBlock = null;
 		this.gameEnd = false;
+		this.randomList = new LinkedList<Block>();
 	}
 
 	public PlayField getPlayField() {
@@ -78,11 +80,11 @@ public class TetrisGame{
 				System.out.println("error");
 				break;
 			}
-			synchronized (canvas) {	
+			synchronized (canvas) {
 				canvas.notifyAll();
 			}
-			
-			if(currentBlock.isDone()){
+
+			if (currentBlock.isDone()) {
 				removeFullRow();
 				checkLose();
 			}
@@ -101,82 +103,94 @@ public class TetrisGame{
 	public void setCanvas(TetrisCanvas canvas) {
 		this.canvas = canvas;
 	}
-	public void removeFullRow(){
-		
+
+	public void removeFullRow() {
+
 		List<List<FieldCell>> gameFieldCells = this.playField.getPlayField();
-		int removedCount =0;
-		for (int i=GAME_HEIGHT-1; i>-1 ; i--){
+		int removedCount = 0;
+		for (int i = GAME_HEIGHT - 1; i > -1; i--) {
 			int cellCounter = 0;
-			for (List<FieldCell> column:gameFieldCells){
-				if(column.get(i).isFilled()){
+			for (List<FieldCell> column : gameFieldCells) {
+				if (column.get(i).isFilled()) {
 					cellCounter++;
 				}
 			}
-			if(cellCounter==GAME_WIDTH){
+			if (cellCounter == GAME_WIDTH) {
 
-				for (List<FieldCell> column:gameFieldCells){
-					
+				for (List<FieldCell> column : gameFieldCells) {
+
 					LinkedList<FieldCell> tmpList = (LinkedList<FieldCell>) column;
 					tmpList.remove(i);
 					tmpList.push(new FieldCell());
 				}
-				
+
 				removedCount++;
 				i++;
 			}
 		}
-		
-		if (removedCount==4){
-			removedCount = removedCount*2;
+
+		if (removedCount == 4) {
+			removedCount = removedCount * 2;
 		}
-		score = score + removedCount*100;
+		score = score + removedCount * 100;
 	}
-	public void saveBlock(){
-		
-		if(this.storedBlock == null){
+
+	public void saveBlock() {
+
+		if (this.storedBlock == null) {
 			this.storedBlock = randomBlock();
 		}
-		
+
 		Block tmpBlock = nextBlock;
 		nextBlock = storedBlock;
 		storedBlock = tmpBlock;
-		
+
 	}
-	
-	public static Block randomBlock() {
-		
-		int random = (int) (Math.random()*Tetriminos.values().length);
-		System.out.println(Tetriminos.values()[random]);
-		Tetriminos randomBlock = Tetriminos.values()[random];
-		
-		return new Block(randomBlock);
+
+	public Block randomBlock() {
+
+		if (randomList.isEmpty()) {
+
+			for (Tetriminos type : Tetriminos.values()) {
+				for (int i = 0; i < 10; i++) {
+					randomList.add(new Block(type));
+				}
+			}
+		}
+
+		int random = (int) (Math.random() * randomList.size());
+
+		Block result = randomList.get(random);
+		randomList.remove(random);
+
+		return result;
 	}
-	
+
 	private void checkLose() {
-		for (List<FieldCell> column:playField.getPlayField()) {
+		for (List<FieldCell> column : playField.getPlayField()) {
 			if (column.get(1).isFilled()) {
 				this.gameEnd = true;
-				//System.out.println(playField);
+				// System.out.println(playField);
 			}
 		}
 	}
 
 	public void pushUP() {
-		
-	
-		for (List<FieldCell> column:playField.getPlayField()) {
-			
-			int random = (int) (Math.random()*10);
+
+		for (List<FieldCell> column : playField.getPlayField()) {
+
+			int random = (int) (Math.random() * 10);
 			FieldCell newBlock = null;
-			if(random>3){
-			newBlock = new FieldCell(true,null);
-			column.set(0, newBlock);
+			if (random > 3) {
+				newBlock = new FieldCell(true, null);
+				column.set(0, newBlock);
 			}
 			Collections.rotate(column, -1);
 		}
 		checkLose();
 	}
-	public void setPause(boolean pause){
+
+	public void setPause(boolean pause) {
 		this.pause = pause;
 	}
 }

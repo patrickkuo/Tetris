@@ -62,7 +62,7 @@ public class TetrisCanvas extends JPanel {
 		int borderWidth = 3;
 
 		int imageType = (gameEnd) ? BufferedImage.TYPE_BYTE_GRAY
-				: BufferedImage.TYPE_3BYTE_BGR;
+				: BufferedImage.TYPE_4BYTE_ABGR;
 
 		BufferedImage bi = new BufferedImage(
 				BLOCK_WIDTH * 10 + borderWidth * 2, BLOCK_WIDTH * 20
