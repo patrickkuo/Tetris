@@ -67,10 +67,6 @@ public class TetrisGame {
 				FileInputStream fis= new FileInputStream(scoreFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				setScoreList((List<ScoreItem>) ois.readObject());
-				
-				for(ScoreItem si:scoreList){
-				System.out.println(si);
-				}
 					
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
