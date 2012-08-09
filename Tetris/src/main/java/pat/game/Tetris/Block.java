@@ -135,53 +135,6 @@ public class Block {
 		return false;
 	}
 
-	private boolean rightCollision() {
-
-		if (x + 3 + model[0].length > 9) {
-			return true;
-		}
-		cleanOld();
-		for (int i = 0; i < model.length; i++) {
-			for (int j = 0; j < model[i].length; j++) {
-
-				if (model[i][j] != null) {
-					if (gameField.getPlayField().get(x + 3 + j + 1).get(y + i)
-							.isFilled()) {
-						addNew();
-						return true;
-					}
-				}
-			}
-		}
-		addNew();
-
-		return false;
-	}
-
-	private boolean downCollision() {
-
-		if (model.length + 1 + this.y > 22) {
-			this.done = true;
-			return true;
-		}
-		cleanOld();
-		for (int i = 0; i < model.length; i++) {
-			for (int j = 0; j < model[i].length; j++) {
-
-				if (model[i][j] != null) {
-					if (gameField.getPlayField().get(x + 3 + j).get(y + i + 1)
-							.isFilled()) {
-						addNew();
-						this.done = true;
-						return true;
-					}
-				}
-			}
-		}
-		addNew();
-		return false;
-
-	}
 
 	private boolean rotateCollision() {
 
