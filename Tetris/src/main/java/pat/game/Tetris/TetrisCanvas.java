@@ -237,7 +237,7 @@ public class TetrisCanvas extends JPanel {
 		g2d.drawString("High Scores", (bi.getWidth() - w) / 2,
 				bi.getHeight() / 10);
 
-		List<ScoreItem> list = game.getScoreList();
+		List<?> list = game.getScoreList();
 
 		for (int i = 0; i < list.size(); i++) {
 
@@ -247,19 +247,21 @@ public class TetrisCanvas extends JPanel {
 				g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
 
 			}
+			
+			ScoreItem si = (ScoreItem) list.get(i);
 
 			fm = g2d.getFontMetrics(g2d.getFont());
 			w = fm.stringWidth((i + 1) + ".");
 			g2d.drawString((i + 1) + ".", (bi.getWidth() / 5 - w) / 2,
 					(bi.getHeight() / 12) * (i + 3) - 5);
 
-			w = fm.stringWidth(list.get(i).getName());
-			g2d.drawString(list.get(i).getName(), (bi.getWidth() * 2 / 5 - w)
+			w = fm.stringWidth(si.getName());
+			g2d.drawString(si.getName(), (bi.getWidth() * 2 / 5 - w)
 					/ 2 + bi.getWidth() / 5, (bi.getHeight() / 12) * (i + 3)
 					- 5);
 
-			w = fm.stringWidth(list.get(i).getScore() + "");
-			g2d.drawString(list.get(i).getScore() + "",
+			w = fm.stringWidth(si.getScore() + "");
+			g2d.drawString(si.getScore() + "",
 					(bi.getWidth() * 2 / 5 - w) / 2 + bi.getWidth() * 3 / 5,
 					(bi.getHeight() / 12) * (i + 3) - 5);
 
