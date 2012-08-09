@@ -6,11 +6,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
-public class TetrisMouseMotionListener implements MouseMotionListener,MouseListener,MouseWheelListener{
+public class TetrisMouseListener implements MouseMotionListener,MouseListener,MouseWheelListener{
 
 	private TetrisGUI mainFrame;
 
-	public TetrisMouseMotionListener(TetrisGUI mainFrame){
+	public TetrisMouseListener(TetrisGUI mainFrame){
 		
 		this.mainFrame = mainFrame;
 		

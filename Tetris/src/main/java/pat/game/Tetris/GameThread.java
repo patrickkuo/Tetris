@@ -1,11 +1,17 @@
 package pat.game.Tetris;
 
-public class GameRunner implements Runnable {
+import javax.swing.JMenuItem;
+
+public class GameThread extends Thread {
 
 	private TetrisGame game;
+	private boolean pause;
+	private JMenuItem stopResume;
 
-	public GameRunner(TetrisGame game) {
+	public GameThread(TetrisGame game, JMenuItem stopResume) {
 		this.game = game;
+		this.stopResume = stopResume;
+		resumeThread();
 	}
 
 	public void run() {
@@ -14,6 +20,19 @@ public class GameRunner implements Runnable {
 		synchronized (game) {
 
 			while (!game.isGameEnd()) {
+
+				while (pause) {
+					synchronized (this) {
+
+						try {
+							wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+
 				int gameSpeed = 500 - game.getScore() / 15;
 				gameSpeed = (gameSpeed > 100) ? gameSpeed : 100;
 
@@ -24,7 +43,7 @@ public class GameRunner implements Runnable {
 					game.setCurrentBlock(TetrisGame.randomBlock());
 				} else if (game.getCurrentBlock().isDone()) {
 					blockDone++;
-					if (blockDone == gameSpeed/40) {
+					if (blockDone == (500 - game.getScore() / 40) / 40) {
 						blockDone = 0;
 						game.pushUP();
 					}
@@ -40,6 +59,32 @@ public class GameRunner implements Runnable {
 					return;
 				}
 			}
+		}
+	}
+
+	public void pauseThread() {
+		stopResume.setText("Resume");
+		this.pause = true;
+	}
+
+	public void resumeThread() {
+		stopResume.setText("Pause");
+		System.out.println("called");
+		this.pause = false;
+
+		synchronized (this) {
+
+			notify();
+
+		}
+
+	}
+
+	public void toggle() {
+		if (this.pause) {
+			resumeThread();
+		} else {
+			pauseThread();
 		}
 	}
 

@@ -18,10 +18,10 @@ public class TetrisGUI extends JFrame {
 	private static final int FRAME_HEIGHT = 720;
 	private TetrisGame game;
 	private PlayField game2;
-	private Thread gameThread;
+	private GameThread gameThread;
 	private Thread repaintThread;
 	private TetrisCanvas tC;
-	
+	private JMenuItem stopResume;
 	/**
 	 * 
 	 */
@@ -29,7 +29,6 @@ public class TetrisGUI extends JFrame {
 
 	public TetrisGUI(TetrisGame game) {
 		super("Tetris");
-		
 
 		try {
 			InetAddress addr = InetAddress.getLocalHost();
@@ -39,7 +38,7 @@ public class TetrisGUI extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		this.game = game;
 		// set exit action
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -65,8 +64,17 @@ public class TetrisGUI extends JFrame {
 				start();
 			}
 		});
+		stopResume = new JMenuItem("Resume");
+		stopResume.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				toggle();
+				
+			}
+		});
 
 		gameMenu.add(singlePlayer);
+		gameMenu.add(stopResume);
 		menuBar.add(gameMenu);
 		setJMenuBar(menuBar);
 
@@ -77,7 +85,7 @@ public class TetrisGUI extends JFrame {
 		game.setCanvas(tC);
 
 		// game thread
-		gameThread = new Thread(new GameRunner(game));
+		gameThread = new GameThread(game, stopResume);
 		gameThread.start();
 
 		// thread for repaint
@@ -85,14 +93,15 @@ public class TetrisGUI extends JFrame {
 		repaintThread.start();
 
 		this.addKeyListener(new TetrisKeyListener(this));
-		this.addMouseMotionListener(new TetrisMouseMotionListener(this));
-		this.addMouseListener(new TetrisMouseMotionListener(this));
-		this.addMouseWheelListener(new TetrisMouseMotionListener(this));
+		this.addMouseMotionListener(new TetrisMouseListener(this));
+		this.addMouseListener(new TetrisMouseListener(this));
+		this.addMouseWheelListener(new TetrisMouseListener(this));
+		this.addFocusListener(new TetrisFocusListener(this));
+
 		// set visible
 		this.setVisible(true);
 		this.setResizable(false);
-		
-		
+
 	}
 
 	public void newGame() {
@@ -104,25 +113,24 @@ public class TetrisGUI extends JFrame {
 
 		this.add(tC);
 		game.setCanvas(tC);
-		
+
 		// kill old thread
 		gameThread.interrupt();
 		repaintThread.interrupt();
-		
+
 		// thread for repaint
 		repaintThread = new Thread(new RepaintRunner(tC));
-		
+
 		// game thread
-		gameThread = new Thread(new GameRunner(game));
+		gameThread = new GameThread(game,stopResume);
 	}
 
 	public void start() {
-		
+
 		repaintThread.start();
 		gameThread.start();
 
 	}
-
 
 	public TetrisGame getGame() {
 		return game;
@@ -136,12 +144,16 @@ public class TetrisGUI extends JFrame {
 		this.game2 = game2;
 	}
 
-	public Thread getGameThread() {
+	public GameThread getGameThread() {
 		return gameThread;
 	}
 
 	public Thread getRepaintThread() {
 		return repaintThread;
+	}
+	
+	private void toggle(){
+		gameThread.toggle();
 	}
 
 }
