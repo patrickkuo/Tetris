@@ -34,7 +34,7 @@ public class GameThread extends Thread {
 				}
 
 				int gameSpeed = 500 - game.getScore() / 15;
-				gameSpeed = (gameSpeed > 100) ? gameSpeed : 100;
+				gameSpeed = (gameSpeed > 200) ? gameSpeed : 200;
 
 				if (game.getNextBlock() == null) {
 					game.setNextBlock(game.randomBlock());
