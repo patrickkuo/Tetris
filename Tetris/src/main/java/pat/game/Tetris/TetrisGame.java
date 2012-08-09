@@ -57,6 +57,8 @@ public class TetrisGame {
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				scoreList = new ArrayList<ScoreItem>();
 				oos.writeObject(scoreList);
+				oos.close();
+				fos.close();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -67,6 +69,8 @@ public class TetrisGame {
 				FileInputStream fis= new FileInputStream(scoreFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				setScoreList((List<ScoreItem>) ois.readObject());
+				ois.close();
+				fis.close();
 					
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

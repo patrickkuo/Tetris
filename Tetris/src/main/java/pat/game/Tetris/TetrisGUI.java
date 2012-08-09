@@ -188,7 +188,9 @@ public class TetrisGUI extends JFrame {
 	private void saveScore(ScoreItem score){
 		
 		game.getScoreList().add(score);
+		Collections.sort(game.getScoreList());
 		Collections.reverse(game.getScoreList());
+		
 		synchronized (tC) {
 			
 			tC.notify();
@@ -198,6 +200,8 @@ public class TetrisGUI extends JFrame {
 			FileOutputStream fos = new FileOutputStream("score.dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(game.getScoreList());
+			oos.close();
+			fos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
