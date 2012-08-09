@@ -46,6 +46,9 @@ public class TetrisCanvas extends JPanel {
 				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH, this);
 		graphics.drawImage(drawScore(Integer.toString(game.getScore())),
 				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH * 9, this);
+		
+		graphics.drawImage(printHighScore(),BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH*14, this);
+		
 		graphics.drawImage(
 				playArea(game.getPlayField().getPlayField(), game.isGameEnd()),
 				BLOCK_WIDTH + startPos, BLOCK_WIDTH, this);
@@ -201,6 +204,57 @@ public class TetrisCanvas extends JPanel {
 		g2d.drawString(score, (bi.getWidth() - w) / 2, bi.getHeight() * 6 / 7);
 
 		return bi;
+	}
+	
+	private BufferedImage printHighScore(){
+		
+		int borderWidth = 3;
+		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH
+				+ borderWidth, BLOCK_WIDTH * 7 +borderWidth+ borderWidth);
+		Graphics2D g2d = bi.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		// draw frame and title frame
+		g2d.setStroke(new BasicStroke(borderWidth));
+		g2d.setColor(Color.WHITE);
+		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
+				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
+		g2d.setColor(Color.LIGHT_GRAY);
+		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
+				- borderWidth, (bi.getHeight() - borderWidth) / 7, 5, 5);
+		g2d.setColor(Color.BLACK);
+		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
+				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
+		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
+				- borderWidth, (bi.getHeight() - borderWidth) / 7, 5, 5);
+		
+		// print title
+		g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+		FontMetrics fm = g2d.getFontMetrics(g2d.getFont());
+		int w = fm.stringWidth("High Scores");
+		g2d.drawString("High Scores", (bi.getWidth() - w) / 2, bi.getHeight() / 10);
+		
+		g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+		
+		List<ScoreItem> list = game.getScoreList();
+		
+		for (int i=0; i<list.size();i++){
+			
+			fm = g2d.getFontMetrics(g2d.getFont());
+			w = fm.stringWidth((i+1)+".");
+			g2d.drawString((i+1)+".", (bi.getWidth()/7-w)/2, (bi.getHeight() / 12)*(i+3));
+			
+			w = fm.stringWidth(list.get(i).getName());
+			g2d.drawString(list.get(i).getName(), (bi.getWidth()*3/7-w)/2+bi.getWidth()/7, (bi.getHeight() / 12)*(i+3));
+			
+			w = fm.stringWidth(list.get(i).getScore()+"");
+			g2d.drawString(list.get(i).getScore()+"", (bi.getWidth()*3/7-w)/2+bi.getWidth()*4/7, (bi.getHeight() / 12)*(i+3));
+			
+		}
+		
+		return bi;
+		
 	}
 
 	private Color getColor(Tetriminos type) {

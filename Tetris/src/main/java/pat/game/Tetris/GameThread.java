@@ -7,9 +7,11 @@ public class GameThread extends Thread {
 	private TetrisGame game;
 	private boolean pause;
 	private JMenuItem stopResume;
+	private TetrisGUI mainFrame;
 
-	public GameThread(TetrisGame game, JMenuItem stopResume) {
+	public GameThread(TetrisGame game, JMenuItem stopResume ,TetrisGUI mainFrame) {
 		this.game = game;
+		this.mainFrame = mainFrame;
 		this.stopResume = stopResume;
 		resumeThread();
 	}
@@ -28,7 +30,7 @@ public class GameThread extends Thread {
 							wait();
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							return;
 						}
 					}
 				}
@@ -59,6 +61,11 @@ public class GameThread extends Thread {
 					return;
 				}
 			}
+			
+			if(game.getScoreList().size()<10 || game.getScoreList().get(9).getScore()<game.getScore()){
+				mainFrame.scorePopup(game.getScore());
+			}
+			
 		}
 	}
 

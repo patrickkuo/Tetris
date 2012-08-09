@@ -2,6 +2,12 @@ package pat.game.Tetris;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
@@ -21,7 +27,7 @@ public class TetrisGUI extends JFrame {
 
 	public TetrisGUI(TetrisGame game) {
 		super("Tetris");
-
+		
 		this.game = game;
 		// set exit action
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,7 +40,7 @@ public class TetrisGUI extends JFrame {
 		int frameLocationY = (int) ((dim.getHeight() - frameHeight) / 2);
 
 		this.setBounds(frameLocationX, frameLocationY, frameWidth, frameHeight);
-
+		
 		// add menu bar
 		JMenuBar menuBar = new JMenuBar();
 		JMenu gameMenu = new JMenu("Game");
@@ -68,7 +74,7 @@ public class TetrisGUI extends JFrame {
 		game.setCanvas(tC);
 
 		// game thread
-		gameThread = new GameThread(game, stopResume);
+		gameThread = new GameThread(game, stopResume,this);
 		gameThread.start();
 
 		// thread for repaint
@@ -105,7 +111,7 @@ public class TetrisGUI extends JFrame {
 		repaintThread = new Thread(new RepaintRunner(tC));
 
 		// game thread
-		gameThread = new GameThread(game,stopResume);
+		gameThread = new GameThread(game,stopResume,this);
 	}
 
 	public void start() {
@@ -137,6 +143,66 @@ public class TetrisGUI extends JFrame {
 	
 	private void toggle(){
 		gameThread.toggle();
+	}
+
+	public void scorePopup(final int score) {
+		
+		final JDialog popUp = new JDialog(this);
+		popUp.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		int frameWidth = 270;
+		int frameHeight = 100;
+		int frameLocationX = (int) ((dim.getWidth() - frameWidth) / 2);
+		int frameLocationY = (int) ((dim.getHeight() - frameHeight) / 2);
+
+		popUp.setBounds(frameLocationX, frameLocationY, frameWidth, frameHeight);
+		popUp.setLayout(null);
+		
+		JLabel lable = new JLabel(" New High Score! Please enter your name.");
+		lable.setBounds(10, 0, 250, 30);
+		
+		final JTextField tf = new JTextField();
+		tf.setBounds(15,35,130,20);
+		
+		JButton submit = new JButton("Submit");
+		submit.setBounds(160, 35, 80, 20);
+		submit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveScore(new ScoreItem(score, tf.getText()));
+				popUp.dispose();
+			}
+		});;
+		
+		popUp.add(lable);
+		popUp.add(tf);
+		popUp.add(submit);
+		
+		popUp.setVisible(true);
+		popUp.setResizable(false);
+		
+	}
+	
+	private void saveScore(ScoreItem score){
+		
+		game.getScoreList().add(score);
+		Collections.reverse(game.getScoreList());
+		synchronized (tC) {
+			
+			tC.notify();
+		}
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("score.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(game.getScoreList());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

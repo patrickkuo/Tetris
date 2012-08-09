@@ -1,5 +1,13 @@
 package pat.game.Tetris;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +25,7 @@ public class TetrisGame {
 	private int score;
 	private boolean pause;
 	private List<Block> randomList;
+	private List<ScoreItem> scoreList;
 
 	public int getScore() {
 		return score;
@@ -39,6 +48,39 @@ public class TetrisGame {
 	}
 
 	public TetrisGame() {
+		
+		File scoreFile = new File("score.dat");
+		if(!scoreFile.exists()){
+			try {
+				scoreFile.createNewFile();
+				FileOutputStream fos = new FileOutputStream(scoreFile);
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				scoreList = new ArrayList<ScoreItem>();
+				oos.writeObject(scoreList);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+			try {
+				FileInputStream fis= new FileInputStream(scoreFile);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				setScoreList((List<ScoreItem>) ois.readObject());
+				
+				for(ScoreItem si:scoreList){
+				System.out.println(si);
+				}
+					
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+		
 		playField = new PlayField();
 		currentBlock = null;
 		this.gameEnd = false;
@@ -192,5 +234,13 @@ public class TetrisGame {
 
 	public void setPause(boolean pause) {
 		this.pause = pause;
+	}
+
+	public List<ScoreItem> getScoreList() {
+		return scoreList;
+	}
+
+	public void setScoreList(List<ScoreItem> scoreList) {
+		this.scoreList = scoreList;
 	}
 }
