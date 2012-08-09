@@ -1,5 +1,6 @@
 package pat.game.Tetris;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -154,7 +155,24 @@ public class TetrisGame{
 		for (List<FieldCell> column:playField.getPlayField()) {
 			if (column.get(1).isFilled()) {
 				this.gameEnd = true;
+				//System.out.println(playField);
 			}
 		}
+	}
+
+	public void pushUP() {
+		
+	
+		for (List<FieldCell> column:playField.getPlayField()) {
+			
+			int random = (int) (Math.random()*10);
+			FieldCell newBlock = null;
+			if(random>3){
+			newBlock = new FieldCell(true,null);
+			column.set(0, newBlock);
+			}
+			Collections.rotate(column, -1);
+		}
+		checkLose();
 	}
 }

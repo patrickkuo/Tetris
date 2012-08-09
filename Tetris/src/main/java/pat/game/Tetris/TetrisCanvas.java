@@ -204,6 +204,10 @@ public class TetrisCanvas extends JPanel {
 	}
 
 	private Color getColor(Tetriminos type) {
+		
+		if(type==null){
+			return Color.GRAY;
+		}
 
 		switch (type) {
 		case I:
@@ -221,7 +225,8 @@ public class TetrisCanvas extends JPanel {
 		case Z:
 			return Color.RED;
 		default:
-			return null;
+			return Color.GRAY;
+
 		}
 	}
 }

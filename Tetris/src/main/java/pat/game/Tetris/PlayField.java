@@ -49,8 +49,9 @@ public class PlayField implements Serializable{
 
 		StringBuffer result = new StringBuffer();
 
-		for (List<FieldCell> column : this.playField) {
-			for (FieldCell cell : column) {
+		for (int i=0; i<this.playField.get(0).size();i++) {
+			for (List<FieldCell> column:this.playField) {
+				FieldCell cell = column.get(i);
 				if (cell.isFilled()) {
 					result.append("■");
 				} else {

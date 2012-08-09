@@ -10,26 +10,31 @@ public class GameRunner implements Runnable {
 
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		int blockDone = 0;
 		synchronized (game) {
-			
+
 			while (!game.isGameEnd()) {
-				
-				if (game.getNextBlock()==null) {
+				int gameSpeed = 500 - game.getScore() / 15;
+				gameSpeed = (gameSpeed > 100) ? gameSpeed : 100;
+
+				if (game.getNextBlock() == null) {
 					game.setNextBlock(TetrisGame.randomBlock());
 				}
-				if (game.getCurrentBlock()==null) {
+				if (game.getCurrentBlock() == null) {
 					game.setCurrentBlock(TetrisGame.randomBlock());
-				}else if(game.getCurrentBlock().isDone()){
+				} else if (game.getCurrentBlock().isDone()) {
+					blockDone++;
+					if (blockDone == gameSpeed/40) {
+						blockDone = 0;
+						game.pushUP();
+					}
 					game.setCurrentBlock(game.getNextBlock());
 					game.setNextBlock(TetrisGame.randomBlock());
 				}
 				game.moveCurrentBlock(Movment.down);
-				
-				int gameSpeed = 500 - game.getScore()/10;
-				
+
 				try {
-					game.wait((gameSpeed>50)?gameSpeed:50);
+					game.wait(gameSpeed);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					return;
@@ -37,8 +42,5 @@ public class GameRunner implements Runnable {
 			}
 		}
 	}
-	
-
-
 
 }
