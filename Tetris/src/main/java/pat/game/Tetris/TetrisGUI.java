@@ -1,16 +1,8 @@
 package pat.game.Tetris;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
 
@@ -29,15 +21,6 @@ public class TetrisGUI extends JFrame {
 
 	public TetrisGUI(TetrisGame game) {
 		super("Tetris");
-
-		try {
-			InetAddress addr = InetAddress.getLocalHost();
-			String ip = addr.getHostAddress();
-			System.out.println(ip);
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		this.game = game;
 		// set exit action

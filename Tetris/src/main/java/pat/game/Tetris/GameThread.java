@@ -43,7 +43,7 @@ public class GameThread extends Thread {
 					game.setCurrentBlock(game.randomBlock());
 				} else if (game.getCurrentBlock().isDone()) {
 					blockDone++;
-					if (blockDone == (500 - game.getScore() / 50) / 25) {
+					if (blockDone >= (500 - game.getScore() / 50) / 25) {
 						blockDone = 0;
 						game.pushUP();
 					}

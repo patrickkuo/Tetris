@@ -1,9 +1,9 @@
 package pat.game.Tetris;
 
-public class Block{
-	
+public class Block {
+
 	private FieldCell[][] model;
-	
+
 	public FieldCell[][] getModel() {
 		return model;
 	}
@@ -20,7 +20,6 @@ public class Block{
 		this.type = type;
 	}
 
-
 	public void setGameField(PlayField gameField) {
 		this.gameField = gameField;
 		addNew();
@@ -28,7 +27,7 @@ public class Block{
 
 	public void moveLeft() {
 		if (gameField != null && !done) {
-			if (!leftCollision()) {
+			if (!collision(-1, 0)) {
 				cleanOld();
 				x--;
 				addNew();
@@ -37,8 +36,8 @@ public class Block{
 	}
 
 	public void moveRight() {
-		if (gameField != null&& !done) {
-			if (!rightCollision()) {
+		if (gameField != null && !done) {
+			if (!collision(1, 0)) {
 				cleanOld();
 				x++;
 				addNew();
@@ -48,18 +47,20 @@ public class Block{
 	}
 
 	public void moveDown() {
-		if (gameField != null&& !done) {
-			if (!downCollision()) {
+		if (gameField != null && !done) {
+			if (!collision(0, 1)) {
 				cleanOld();
 				y++;
 				addNew();
+			}else{
+				this.done = true;
 			}
 			// System.out.println(gameField);
 		}
 	}
 
 	public void rotate() {
-		if (gameField != null&& !done) {
+		if (gameField != null && !done) {
 			if (!rotateCollision()) {
 				cleanOld();
 				int oldX = model.length;
@@ -89,7 +90,8 @@ public class Block{
 		for (int i = 0; i < model.length; i++) {
 			for (int j = 0; j < model[i].length; j++) {
 				if (model[i][j] != null && model[i][j].isFilled()) {
-					this.gameField.getPlayField().get(j + x + 3).get(i + y).empty();
+					this.gameField.getPlayField().get(j + x + 3).get(i + y)
+							.empty();
 				}
 			}
 		}
@@ -100,32 +102,36 @@ public class Block{
 			for (int j = 0; j < model[i].length; j++) {
 
 				if (model[i][j] != null && model[i][j].isFilled()) {
-					this.gameField.getPlayField().get(j + x + 3).get(i + y).fill(type);
+					this.gameField.getPlayField().get(j + x + 3).get(i + y)
+							.fill(type);
 				}
 			}
 		}
 	}
 
-	private boolean leftCollision() {
+	private boolean collision(int directionX, int directionY) {
 
-		if (x + 2 < 0) {
-			return true;
-		}
-	
-		cleanOld();
-		for (int i = 0; i < model.length; i++) {
-			for (int j = 0; j < model[i].length; j++) {
+		try {
+			cleanOld();
+			for (int i = 0; i < model.length; i++) {
+				for (int j = 0; j < model[i].length; j++) {
 
-				if (model[i][j] != null) {
-					if (gameField.getPlayField().get(x + 2 + j).get(y + i).isFilled()) {
-						addNew();
-						return true;
+					if (model[i][j] != null) {
+						if (gameField.getPlayField()
+								.get(x + 3 + j + directionX)
+								.get(y + i + directionY).isFilled()) {
+							addNew();
+							return true;
+						}
 					}
 				}
 			}
+		} catch (IndexOutOfBoundsException e) {
+			addNew();
+			return true;
 		}
-		addNew();
 
+		addNew();
 		return false;
 	}
 
@@ -139,7 +145,8 @@ public class Block{
 			for (int j = 0; j < model[i].length; j++) {
 
 				if (model[i][j] != null) {
-					if (gameField.getPlayField().get(x + 3+ j + 1).get(y + i).isFilled()) {
+					if (gameField.getPlayField().get(x + 3 + j + 1).get(y + i)
+							.isFilled()) {
 						addNew();
 						return true;
 					}
@@ -147,7 +154,6 @@ public class Block{
 			}
 		}
 		addNew();
-		
 
 		return false;
 	}
@@ -163,7 +169,8 @@ public class Block{
 			for (int j = 0; j < model[i].length; j++) {
 
 				if (model[i][j] != null) {
-					if (gameField.getPlayField().get(x + 3 + j).get(y + i + 1).isFilled()) {
+					if (gameField.getPlayField().get(x + 3 + j).get(y + i + 1)
+							.isFilled()) {
 						addNew();
 						this.done = true;
 						return true;
@@ -178,38 +185,38 @@ public class Block{
 
 	private boolean rotateCollision() {
 
-		try{
-		cleanOld();
+		try {
+			cleanOld();
 
-		int oldX = model.length;
-		int oldY = model[0].length;
-		FieldCell[][] newModel = new FieldCell[oldY][oldX];
+			int oldX = model.length;
+			int oldY = model[0].length;
+			FieldCell[][] newModel = new FieldCell[oldY][oldX];
 
-		for (int i = 0; i < oldX; i++) {
-			for (int j = 0; j < oldY; j++) {
-				if (model[i][j] != null) {
-					newModel[oldY - j - 1][i] = model[i][j];
+			for (int i = 0; i < oldX; i++) {
+				for (int j = 0; j < oldY; j++) {
+					if (model[i][j] != null) {
+						newModel[oldY - j - 1][i] = model[i][j];
+					}
 				}
 			}
-		}
 
-		int delta = newModel.length - this.model.length;
-		int tmpY = (y - delta > -1) ? y - delta : 0;
+			int delta = newModel.length - this.model.length;
+			int tmpY = (y - delta > -1) ? y - delta : 0;
 
-		boolean result = false;
-		for (int i = 0; i < newModel.length; i++) {
-			for (int j = 0; j < newModel[i].length; j++) {
-				if (newModel[i][j] != null
-						&& this.gameField.getPlayField().get(j + x + 3).get(i + tmpY).isFilled()) {
-					result = true;
+			boolean result = false;
+			for (int i = 0; i < newModel.length; i++) {
+				for (int j = 0; j < newModel[i].length; j++) {
+					if (newModel[i][j] != null
+							&& this.gameField.getPlayField().get(j + x + 3)
+									.get(i + tmpY).isFilled()) {
+						result = true;
+					}
+
 				}
-
 			}
-		}
-
-		addNew();
-		return result;
-		}catch (IndexOutOfBoundsException e){
+			addNew();
+			return result;
+		} catch (IndexOutOfBoundsException e) {
 			addNew();
 			return true;
 		}
@@ -219,15 +226,12 @@ public class Block{
 		return this.done;
 	}
 
-
 	public int getX() {
 		return x;
 	}
 
-
 	public int getY() {
 		return y;
 	}
-	
-	
+
 }
