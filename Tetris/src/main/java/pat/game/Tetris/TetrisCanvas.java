@@ -11,79 +11,64 @@ public class TetrisCanvas extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private static final int BLOCK_WIDTH = 30;
-	private TetrisGame game;
-	private PlayField game2;
+	private static final int FRAME_WIDTH = BLOCK_WIDTH*20;
+	private static final int FRAME_HEIGHT = BLOCK_WIDTH*24;
+	private static final int BORDER_WIDTH = 3;
+	private static final long serialVersionUID = 1L;
+	private TetrisGUI mainFrame;
 
-	public TetrisCanvas(TetrisGame game) {
-
-		this.game = game;
-		game.getPlayField();
-
-	}
-
-	public TetrisCanvas(TetrisGame game1, PlayField game2) {
-
-		this.game = game1;
-		this.game2 = game2;
-		game.getPlayField();
-
+	public TetrisCanvas(TetrisGUI mainFrame) {
+		this.mainFrame = mainFrame;
 	}
 
 	@Override
 	public void paintComponent(Graphics graphics) {
+		
+		TetrisGame game = mainFrame.getGame();
 
-		int startPos = (game2 == null) ? 6 * BLOCK_WIDTH : 0;
-
-		graphics.clearRect(0, 0, 850, 720);
+		graphics.clearRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
 		graphics.drawImage(
 				blockInfo("Stored Block", Color.YELLOW, game.getStoredBlock()),
-				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH * 5, this);
+				BLOCK_WIDTH * 12 -BORDER_WIDTH, BLOCK_WIDTH * 5, this);
 		graphics.drawImage(
 				blockInfo("Next Block", Color.GREEN, game.getNextBlock()),
-				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH, this);
+				BLOCK_WIDTH * 12 -BORDER_WIDTH, BLOCK_WIDTH, this);
 		graphics.drawImage(drawScore(Integer.toString(game.getScore())),
-				BLOCK_WIDTH * 11 + startPos, BLOCK_WIDTH * 9, this);
+				BLOCK_WIDTH * 12 -BORDER_WIDTH, BLOCK_WIDTH * 9, this);
 
-		graphics.drawImage(printHighScore(), BLOCK_WIDTH * 11 + startPos,
+		graphics.drawImage(printHighScore(), BLOCK_WIDTH * 12 -BORDER_WIDTH,
 				BLOCK_WIDTH * 14, this);
 
 		graphics.drawImage(
 				playArea(game.getPlayField().getPlayField(), game.isGameEnd()),
-				BLOCK_WIDTH + startPos, BLOCK_WIDTH, this);
-
-		if (game2 != null) {
-			graphics.drawImage(playArea(game2.getPlayField(), false),
-					BLOCK_WIDTH * 17, BLOCK_WIDTH, this);
-		}
+				BLOCK_WIDTH*2 -BORDER_WIDTH*2, BLOCK_WIDTH, this);
 	}
 
 	private BufferedImage playArea(List<List<FieldCell>> fieldCell,
 			boolean gameEnd) {
 		// create buffer image to draw on
-		int borderWidth = 3;
 
 		int imageType = (gameEnd) ? BufferedImage.TYPE_BYTE_GRAY
 				: BufferedImage.TYPE_4BYTE_ABGR;
 
 		BufferedImage bi = new BufferedImage(
-				BLOCK_WIDTH * 10 + borderWidth * 2, BLOCK_WIDTH * 20
-						+ borderWidth * 2, imageType);
+				BLOCK_WIDTH * 10 + BORDER_WIDTH * 2, BLOCK_WIDTH * 20
+						+ BORDER_WIDTH * 2, imageType);
 		Graphics2D g2d = bi.createGraphics();
 
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// draw background
-		g2d.setStroke(new BasicStroke(borderWidth));
+		g2d.setStroke(new BasicStroke(BORDER_WIDTH));
 		g2d.setColor(Color.WHITE);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, BLOCK_WIDTH * 10
-				+ borderWidth, BLOCK_WIDTH * 20 + borderWidth, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, BLOCK_WIDTH * 10
+				+ BORDER_WIDTH, BLOCK_WIDTH * 20 + BORDER_WIDTH, 5, 5);
 		g2d.setColor(Color.BLACK);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, BLOCK_WIDTH * 10
-				+ borderWidth, BLOCK_WIDTH * 20 + borderWidth, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, BLOCK_WIDTH * 10
+				+ BORDER_WIDTH, BLOCK_WIDTH * 20 + BORDER_WIDTH, 5, 5);
 
 		// draw blocks
 		if (fieldCell != null) {
@@ -95,9 +80,9 @@ public class TetrisCanvas extends JPanel {
 						g2d.setColor(getColor(cell.getFilledTeriminos()));
 
 						int xPos = fieldCell.indexOf(column) * BLOCK_WIDTH
-								+ borderWidth;
+								+ BORDER_WIDTH;
 						int yPos = (column.indexOf(cell) - 2) * BLOCK_WIDTH
-								+ borderWidth;
+								+ BORDER_WIDTH;
 
 						g2d.fillRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,
 								5, 5);
@@ -115,26 +100,25 @@ public class TetrisCanvas extends JPanel {
 
 	private BufferedImage blockInfo(String title, Color titleColor, Block block) {
 		// create buffer image to draw on
-		int borderWidth = 3;
 		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH
-				+ borderWidth, BLOCK_WIDTH * 4 + borderWidth);
+				+ BORDER_WIDTH, BLOCK_WIDTH * 4 + BORDER_WIDTH);
 		Graphics2D g2d = bi.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// draw frame and title frame
-		g2d.setStroke(new BasicStroke(borderWidth));
+		g2d.setStroke(new BasicStroke(BORDER_WIDTH));
 		g2d.setColor(Color.WHITE);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
 		g2d.setColor(titleColor);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 4, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 4, 5, 5);
 		g2d.setColor(Color.BLACK);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 4, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 4, 5, 5);
 
 		// draw title
 		g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
@@ -172,27 +156,26 @@ public class TetrisCanvas extends JPanel {
 	}
 
 	private BufferedImage drawScore(String score) {
-
-		int borderWidth = 3;
+		
 		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH
-				+ borderWidth, BLOCK_WIDTH * 2 + borderWidth);
+				+ BORDER_WIDTH, BLOCK_WIDTH * 2 + BORDER_WIDTH);
 		Graphics2D g2d = bi.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// draw frame and title frame
-		g2d.setStroke(new BasicStroke(borderWidth));
+		g2d.setStroke(new BasicStroke(BORDER_WIDTH));
 		g2d.setColor(Color.WHITE);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
 		g2d.setColor(Color.LIGHT_GRAY);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 2, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 2, 5, 5);
 		g2d.setColor(Color.BLACK);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 2, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 2, 5, 5);
 
 		// print title
 		g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
@@ -209,26 +192,25 @@ public class TetrisCanvas extends JPanel {
 
 	private BufferedImage printHighScore() {
 
-		int borderWidth = 3;
 		BufferedImage bi = (BufferedImage) createImage(6 * BLOCK_WIDTH
-				+ borderWidth, BLOCK_WIDTH * 7 + borderWidth + borderWidth);
+				+ BORDER_WIDTH, BLOCK_WIDTH * 7 + BORDER_WIDTH + BORDER_WIDTH);
 		Graphics2D g2d = bi.createGraphics();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		// draw frame and title frame
-		g2d.setStroke(new BasicStroke(borderWidth));
+		g2d.setStroke(new BasicStroke(BORDER_WIDTH));
 		g2d.setColor(Color.WHITE);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
 		g2d.setColor(Color.LIGHT_GRAY);
-		g2d.fillRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 7, 5, 5);
+		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 7, 5, 5);
 		g2d.setColor(Color.BLACK);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, bi.getHeight() - borderWidth, 5, 5);
-		g2d.drawRoundRect(borderWidth / 2, borderWidth / 2, bi.getWidth()
-				- borderWidth, (bi.getHeight() - borderWidth) / 7, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
+		g2d.drawRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
+				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 7, 5, 5);
 
 		// print title
 		g2d.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
@@ -237,7 +219,7 @@ public class TetrisCanvas extends JPanel {
 		g2d.drawString("High Scores", (bi.getWidth() - w) / 2,
 				bi.getHeight() / 10);
 
-		List<?> list = game.getScoreList();
+		List<?> list = mainFrame.getGame().getScoreList();
 
 		for (int i = 0; i < list.size(); i++) {
 

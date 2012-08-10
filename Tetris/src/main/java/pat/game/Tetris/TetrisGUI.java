@@ -9,10 +9,10 @@ import javax.swing.*;
 
 public class TetrisGUI extends JFrame {
 
-	private static final int FRAME_WIDTH = 850;
-	private static final int FRAME_HEIGHT = 720;
+	private static final int BLOCK_WIDTH = 30;
+	private static final int FRAME_WIDTH = BLOCK_WIDTH*20;
+	private static final int FRAME_HEIGHT = BLOCK_WIDTH*24;
 	private TetrisGame game;
-	private PlayField game2;
 	private GameThread gameThread;
 	private Thread repaintThread;
 	private TetrisCanvas tC;
@@ -65,7 +65,7 @@ public class TetrisGUI extends JFrame {
 		setJMenuBar(menuBar);
 
 		// canvas class handle drawings
-		tC = new TetrisCanvas(game);
+		tC = new TetrisCanvas(this);
 		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		this.add(tC);
 		game.setCanvas(tC);
@@ -93,11 +93,6 @@ public class TetrisGUI extends JFrame {
 	public void newGame() {
 
 		this.game = new TetrisGame();
-		this.remove(tC);
-		tC = new TetrisCanvas(game);
-		tC.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-
-		this.add(tC);
 		game.setCanvas(tC);
 
 		// kill old thread
@@ -120,14 +115,6 @@ public class TetrisGUI extends JFrame {
 
 	public TetrisGame getGame() {
 		return game;
-	}
-
-	public PlayField getGame2() {
-		return game2;
-	}
-
-	public void setGame2(PlayField game2) {
-		this.game2 = game2;
 	}
 
 	public GameThread getGameThread() {
