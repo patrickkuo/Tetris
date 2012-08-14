@@ -33,6 +33,9 @@ public class TetrisKeyListener implements KeyListener {
 			mainFrame.getGame().saveBlock();
 			
 		}
+		if(mainFrame.getGameThread().isPause()){
+			mainFrame.getGameThread().resumeThread();
+		}
 
 	}
 

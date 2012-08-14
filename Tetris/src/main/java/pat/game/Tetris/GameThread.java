@@ -94,4 +94,8 @@ public class GameThread extends Thread {
 		}
 	}
 
+	public boolean isPause() {
+		return pause;
+	}
+
 }

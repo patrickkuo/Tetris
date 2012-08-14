@@ -52,7 +52,7 @@ public class Block {
 				cleanOld();
 				y++;
 				addNew();
-			}else{
+			} else {
 				this.done = true;
 			}
 			// System.out.println(gameField);
@@ -134,7 +134,6 @@ public class Block {
 		addNew();
 		return false;
 	}
-
 
 	private boolean rotateCollision() {
 
