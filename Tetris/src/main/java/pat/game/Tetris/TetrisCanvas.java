@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.w3c.dom.css.CSSPrimitiveValue;
+import org.w3c.dom.css.RGBColor;
+
 public class TetrisCanvas extends JPanel {
 
 	/**
@@ -77,19 +80,17 @@ public class TetrisCanvas extends JPanel {
 					FieldCell cell = column.get(i);
 					if (cell.isFilled()) {
 
-						g2d.setColor(getColor(cell.getFilledTeriminos()));
+
 
 						int xPos = fieldCell.indexOf(column) * BLOCK_WIDTH
 								+ BORDER_WIDTH;
 						int yPos = (column.indexOf(cell) - 2) * BLOCK_WIDTH
 								+ BORDER_WIDTH;
-
-						g2d.fillRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,
-								5, 5);
+						
+						g2d.drawImage(drawSquare(cell),xPos,yPos,null);
 						g2d.setStroke(new BasicStroke(2));
 						g2d.setColor(Color.BLACK);
-						g2d.drawRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,
-								5, 5);
+						g2d.drawRoundRect(xPos, yPos, BLOCK_WIDTH, BLOCK_WIDTH,5,5);
 					}
 				}
 			}
@@ -97,6 +98,30 @@ public class TetrisCanvas extends JPanel {
 		return bi;
 
 	}
+	
+	private BufferedImage drawSquare(FieldCell cell){
+		 
+		BufferedImage bi = (BufferedImage) createImage(BLOCK_WIDTH,BLOCK_WIDTH);
+		Graphics2D g2d = bi.createGraphics();
+		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setBackground(null);
+		
+		GradientPaint gp = new GradientPaint(BLOCK_WIDTH/2, BLOCK_WIDTH/2,getColor(cell.getFilledTeriminos()) , 0, 0, Color.WHITE);
+		
+		//g2d.setColor(getColor(cell.getFilledTeriminos()));
+		
+		g2d.setPaint(gp);
+		
+		g2d.fillRoundRect(BORDER_WIDTH/2, BORDER_WIDTH/2, BLOCK_WIDTH, BLOCK_WIDTH,
+				5, 5);
+
+		
+		return bi;
+		
+		
+	}
+	
 
 	private BufferedImage blockInfo(String title, Color titleColor, Block block) {
 		// create buffer image to draw on
@@ -111,7 +136,9 @@ public class TetrisCanvas extends JPanel {
 		g2d.setColor(Color.WHITE);
 		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
 				- BORDER_WIDTH, bi.getHeight() - BORDER_WIDTH, 5, 5);
-		g2d.setColor(titleColor);
+		
+		GradientPaint gp = new GradientPaint(0,0,Color.WHITE,0,bi.getHeight()/4,titleColor);
+		g2d.setPaint(gp);
 		g2d.fillRoundRect(BORDER_WIDTH / 2, BORDER_WIDTH / 2, bi.getWidth()
 				- BORDER_WIDTH, (bi.getHeight() - BORDER_WIDTH) / 4, 5, 5);
 		g2d.setColor(Color.BLACK);
@@ -132,16 +159,14 @@ public class TetrisCanvas extends JPanel {
 			for (int i = 0; i < model.length; i++) {
 				for (int j = 0; j < model[i].length; j++) {
 					if (model[i][j] != null) {
-						g2d.setColor(getColor(model[i][j].getFilledTeriminos()));
 
 						double xOffset = (bi.getWidth() - model[0].length
 								* BLOCK_WIDTH) / 2;
 						double yOffset = (bi.getHeight() * 5 / 4 - model.length
 								* BLOCK_WIDTH) / 2;
-
-						g2d.fillRoundRect((int) xOffset + BLOCK_WIDTH * j,
-								(int) yOffset + i * BLOCK_WIDTH, BLOCK_WIDTH,
-								BLOCK_WIDTH, 5, 5);
+						
+						g2d.drawImage(drawSquare(model[i][j]),(int) xOffset + BLOCK_WIDTH * j,
+								(int) yOffset + i * BLOCK_WIDTH,null);
 
 						g2d.setStroke(new BasicStroke(2));
 						g2d.setColor(Color.BLACK);
