@@ -14,28 +14,34 @@ public class TetrisKeyListener implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (!mainFrame.getGame().isGameEnd()) {
-			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				mainFrame.getGame().moveCurrentBlock(Movment.down);
-			}
-			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				mainFrame.getGame().moveCurrentBlock(Movment.left);
 
-			}
-			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				mainFrame.getGame().moveCurrentBlock(Movment.right);
+		if (mainFrame.getGameThread().isPause()) {
+			mainFrame.getGameThread().resumeThread();
+		} else {
+			synchronized (mainFrame.getGame()) {
 
-			}
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-				mainFrame.getGame().moveCurrentBlock(Movment.rotate);
-			}
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (!mainFrame.getGame().isGameEnd()) {
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+						mainFrame.getGame().moveCurrentBlock(Movment.down);
+					}
+					if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+						mainFrame.getGame().moveCurrentBlock(Movment.left);
 
-				mainFrame.getGame().saveBlock();
+					}
+					if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+						mainFrame.getGame().moveCurrentBlock(Movment.right);
 
-			}
-			if (mainFrame.getGameThread().isPause()) {
-				mainFrame.getGameThread().resumeThread();
+					}
+					if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+						mainFrame.getGame().moveCurrentBlock(Movment.rotate);
+					}
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+						mainFrame.getGame().saveBlock();
+
+					}
+
+				}
 			}
 		}
 

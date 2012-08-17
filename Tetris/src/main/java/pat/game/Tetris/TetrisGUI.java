@@ -149,6 +149,16 @@ public class TetrisGUI extends JFrame {
 		final JTextField tf = new JTextField();
 		tf.setBounds(15,35,130,20);
 		
+		tf.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				saveScore(new ScoreItem(score, tf.getText()));
+				popUp.dispose();
+				
+			}
+		});
+		
 		JButton submit = new JButton("Submit");
 		submit.setBounds(160, 35, 80, 20);
 		submit.addActionListener(new ActionListener() {

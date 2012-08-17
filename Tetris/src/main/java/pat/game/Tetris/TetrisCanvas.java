@@ -6,9 +6,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.w3c.dom.css.CSSPrimitiveValue;
-import org.w3c.dom.css.RGBColor;
-
 public class TetrisCanvas extends JPanel {
 
 	/**

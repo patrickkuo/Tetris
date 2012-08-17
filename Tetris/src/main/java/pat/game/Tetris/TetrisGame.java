@@ -47,6 +47,7 @@ public class TetrisGame {
 		this.storedBlock = storedBlock;
 	}
 
+	@SuppressWarnings("unchecked")
 	public TetrisGame() {
 		
 		File scoreFile = new File("score.dat");
